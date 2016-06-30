@@ -1,9 +1,10 @@
 // Enemies our player must avoid
 var allEnemies = [];
 
-var Enemy = function(name,row,dir) {
+var Enemy = function(name,row,dir,speed) {
     this.name = name;
     this.dir = dir;
+    this.speed = speed;
     if (dir < 0) {
         this.x = 555;
         this.sprite = 'images/enemy-bug2.png'; // ADDED ALTERNATE DIRECTION FOR BUG
@@ -25,14 +26,14 @@ var Enemy = function(name,row,dir) {
 Enemy.prototype.update = function(dt) {
     // ADDED ALTERNATE DIRECTION FOR BUG
     if (this.dir < 0) {
-        if (this.x > 0) {
-            this.x-=1;
+        if (this.x > -100) {
+            this.x-=this.speed*dt;
         } else {
             this.x = 555;
             }
     } else {
-        if (this.x < 505) {
-            this.x++;
+        if (this.x < 555) {
+            this.x+=this.speed*dt;
         } else {
             this.x = 0;
         }
@@ -72,8 +73,10 @@ Player.prototype.render = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var boris = new Enemy("Boris",0,-1);
-var natasha = new Enemy("Natasha",3,1);
+var boris = new Enemy("Boris",0,-1,200);
+var natasha = new Enemy("Natasha",3,1,50);
+var igor = new Enemy("Igor",2,-1,150);
+var dmitri = new Enemy("Dmitri",1,1,100);
 
 var player = new Player();
 
