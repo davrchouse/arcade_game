@@ -108,12 +108,16 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
+
+        // drch: add sklyine to top of canvas
+        ctx.drawImage(Resources.get('images/sky.png'), 0, 0);
+
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 4 of stone
-                'images/stone-block.png',   // Row 2 of 4 of stone
-                'images/stone-block.png',   // Row 3 of 4 of stone
-                'images/stone-block.png',   // Row 4 of 4 of stone
+                'images/grass-block.png',   // Top row is water
+                'images/upper-road0.png',   // Row 1 of 4 of stone
+                'images/upper-road1.png',   // Row 2 of 4 of stone
+                'images/upper-road0.png',   // Row 3 of 4 of stone
+                'images/upper-road2.png',   // Row 4 of 4 of stone
                 'images/grass-block.png',   // Row 1 of 2 of grass
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
@@ -176,7 +180,19 @@ var Engine = (function(global) {
         'images/char-boy.png',
         'images/enemy-bug2.png', // ADDED ALTERNATE DIRECTION FOR BUG
         'images/bang.png', // ADDED EXPLOSION FOR COLLISIONS
-        'images/chicken.png' // ADDED CHICKEN FOR PLAYER
+        'images/chicken.png', // ADDED CHICKEN FOR PLAYER
+        'images/chicken2.png',
+        'images/upper-road1.png', // ADDED NEW ROADS
+        'images/upper-road2.png',
+        'images/upper-road0.png',
+        'images/car_ivan2.png', // ADDED CARS INSTEAD OF BUGS
+        'images/car_dmitri.png',
+        'images/car_natasha.png',
+        'images/car_igor.png',
+        'images/car_boris.png',
+        'images/car_gregor.png',
+        'images/car_theodor.png',
+        'images/sky.png' // ADD SKYLINE
     ]);
     Resources.onReady(init);
 

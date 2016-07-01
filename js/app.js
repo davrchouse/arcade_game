@@ -17,10 +17,10 @@ var Enemy = function(name,row,speed) {
     this.speed = speed;
     if (speed < 0) {
         this.x = 555;
-        this.sprite = 'images/enemy-bug2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
+        this.sprite = 'images/car_ivan2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
         this.x = 0;
-        this.sprite = 'images/enemy-bug.png';
+        this.sprite = 'images/car_dmitri.png';
     }
     this.y = 65 + (row * rowHeight);
     allEnemies.push(this);
@@ -53,16 +53,16 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     // ctx.fillStyle = "rgba(100,100,100,0.5)"; // uncomment to highlight total png for each enemy
     // ctx.fillRect(this.x,this.y,101,171);
-    ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
-    ctx.fillRect(this.x,this.y+78,101,65);
-    ctx.fillStyle = "red";   // uncomment to see goalLine
-    ctx.fillRect(0,132,500,4);
-    ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
-    ctx.fillRect(0,215,500,4);
-    ctx.fillRect(0,298,500,4);
-    ctx.fillRect(0,381,500,4);
-    ctx.fillRect(0,464,500,4);
-    ctx.fillRect(0,547,500,4);
+    // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
+    // ctx.fillRect(this.x,this.y+78,101,65);
+    // ctx.fillStyle = "red";   // uncomment to see goalLine
+    // ctx.fillRect(0,132,500,4);
+    // ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
+    // ctx.fillRect(0,215,500,4);
+    // ctx.fillRect(0,298,500,4);
+    // ctx.fillRect(0,381,500,4);
+    // ctx.fillRect(0,464,500,4);
+    // ctx.fillRect(0,547,500,4);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -76,7 +76,7 @@ var Player = function () {
     this.y = 405;
     this.movementX = 0;
     this.movementY = 0;
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/chicken.png';
     // var test = this.sprite.width; // how to find width of sprite for the enemy to bump into it?
     // console.log(test); // ??
 };
@@ -154,7 +154,7 @@ Player.prototype.update = function() {
             audio.playHorn();
         }
         setTimeout(function(){
-            player.sprite = 'images/char-boy.png';
+            player.sprite = 'images/chicken.png';
             player.x = (405 / 2);
             player.y = 405;
             keysOn = 1;
@@ -182,8 +182,8 @@ Player.prototype.update = function() {
 Player.prototype.render = function() {
     // ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight total png for player
     // ctx.fillRect(this.x,this.y,101,171);
-    ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
-    ctx.fillRect(this.x+20,this.y+65,63,74);
+    // ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
+    // ctx.fillRect(this.x+20,this.y+65,63,74);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
