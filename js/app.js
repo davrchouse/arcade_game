@@ -1,8 +1,12 @@
 // Udacity: Enemies our player must avoid
-// drch: add array for all enemies
+// drch: add array for all enemies;
 var allEnemies = [];
-var keysOn = 1;
-var playerSpeed = 83/3;
+// drch: global variables to easily change features
+var keysOn = 1; // turns on or off keyboard after collision or goal line crossing
+var rowHeight = 83;
+var playerSpeed = rowHeight/3; // adjust speed of player here to stay inside each row
+
+
 
 var Enemy = function(name,row,speed) {
     // Udacity: Variables applied to each of our instances go here,
@@ -18,7 +22,7 @@ var Enemy = function(name,row,speed) {
         this.x = 0;
         this.sprite = 'images/enemy-bug.png';
     }
-    this.y = 65 + (row * 83);
+    this.y = 65 + (row * rowHeight);
     allEnemies.push(this);
 };
 
@@ -49,16 +53,16 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     // ctx.fillStyle = "rgba(100,100,100,0.5)"; // uncomment to highlight total png for each enemy
     // ctx.fillRect(this.x,this.y,101,171);
-    // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
-    // ctx.fillRect(this.x,this.y+78,101,65);
-    // ctx.fillStyle = "red";   // uncomment to see goalLine
-    // ctx.fillRect(0,132,500,4);
-    // ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
-    // ctx.fillRect(0,215,500,4);
-    // ctx.fillRect(0,298,500,4);
-    // ctx.fillRect(0,381,500,4);
-    // ctx.fillRect(0,464,500,4);
-    // ctx.fillRect(0,547,500,4);
+    ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
+    ctx.fillRect(this.x,this.y+78,101,65);
+    ctx.fillStyle = "red";   // uncomment to see goalLine
+    ctx.fillRect(0,132,500,4);
+    ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
+    ctx.fillRect(0,215,500,4);
+    ctx.fillRect(0,298,500,4);
+    ctx.fillRect(0,381,500,4);
+    ctx.fillRect(0,464,500,4);
+    ctx.fillRect(0,547,500,4);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -146,6 +150,9 @@ Player.prototype.update = function() {
         // (BUG: bang still can move at end / frame problem sometimes on reset to start position)
         keysOn = 0;
         player.sprite = 'images/bang.png';
+        if (audio.toggle === "on") {
+            audio.playHorn();
+        }
         setTimeout(function(){
             player.sprite = 'images/char-boy.png';
             player.x = (405 / 2);
@@ -175,8 +182,8 @@ Player.prototype.update = function() {
 Player.prototype.render = function() {
     // ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight total png for player
     // ctx.fillRect(this.x,this.y,101,171);
-    // ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
-    // ctx.fillRect(this.x+20,this.y+65,63,74);
+    ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
+    ctx.fillRect(this.x+20,this.y+65,63,74);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
