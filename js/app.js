@@ -1,6 +1,7 @@
 // Udacity: Enemies our player must avoid
 // drch: add array for all enemies
 var allEnemies = [];
+var keysOn = 1;
 
 var Enemy = function(name,row,speed) {
     // Udacity: Variables applied to each of our instances go here,
@@ -47,7 +48,7 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     // ctx.fillStyle = "rgba(100,100,100,0.5)"; // uncomment to highlight total png for each enemy
     // ctx.fillRect(this.x,this.y,101,171);
-    // ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone on each enemy
+    // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
     // ctx.fillRect(this.x,this.y+78,101,65);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -70,21 +71,24 @@ var Player = function () {
 // drch: handleInput function of each player that translates input key into
 // an x or y movement to add in the update function
 Player.prototype.handleInput = function(inputKey) {
-    if (inputKey === "left") {
-        this.movementX = -30;
+    if (keysOn === 1) {
+        if (inputKey === "left") {
+            this.movementX = -30;
+        }
+        else if (inputKey === "right") {
+            this.movementX = 30;
+        }
+         else if (inputKey === "down") {
+            this.movementY = 30;
+        }
+         else if (inputKey === "up") {
+            this.movementY = -30;
+        }
+    } else {
+        this.movementX = 0;
+        this.movementY = 0;
     }
-    else if (inputKey === "right") {
-        this.movementX = 30;
-    }
-     else if (inputKey === "down") {
-        this.movementY = 30;
-    }
-     else if (inputKey === "up") {
-        this.movementY = -30;
-    }
-    setTimeout(function(){
-        console.log("player", player.x,player.y)},200);
-    };
+};
 
 var collision = 0;
 
@@ -95,23 +99,26 @@ Player.prototype.update = function() {
         var playerRight = player.x+79;
         var playerTop = player.y+65;
         var playerBottom = player.y+139;
+        var playerMiddle = player.y+102;
     allEnemies.forEach(function(enemy) {
         var enemyLeft = enemy.x;
         var enemyRight = enemy.x+101;
         var enemyTop = enemy.y+78;
-        var enemyBottom = enemy.y+139;
+        var enemyBottom = enemy.y+143;
         // label as a collision if the player touches any of the enemies
         if (
             (
-                ((playerTop < enemyBottom) && (playerTop > enemyTop))
+                ((playerTop <= enemyBottom) && (playerTop >= enemyTop))
                 ||
-                ((playerBottom > enemyTop) && (playerBottom < enemyBottom))
+                ((playerBottom >= enemyTop) && (playerBottom <= enemyBottom))
+                ||
+                ((playerMiddle >= enemyTop) && (playerMiddle <= enemyBottom))
             )
             &&
             (
-                ((playerLeft > enemyLeft) && (playerLeft < enemyRight))
+                ((playerLeft >= enemyLeft) && (playerLeft <= enemyRight))
                 ||
-                ((playerRight > enemyLeft) && (playerRight < enemyRight))
+                ((playerRight >= enemyLeft) && (playerRight <= enemyRight))
             )
         ) {
             collision = 1;
@@ -120,8 +127,18 @@ Player.prototype.update = function() {
     };
     // if a collision occurs, reset the player to the starting point and reset the collision counter to 0;
     if (collision === 1) {
-        player.x = (405 / 2);
-        player.y = 405;
+            // player.x = (405 / 2);
+            // player.y = 405;
+        // turn off keys and add explosion when a collision occurs
+        // (BUG: bang still can move at end / frame problem sometimes on reset to start position)
+        keysOn = 0;
+        player.sprite = 'images/bang.png';
+        setTimeout(function(){
+            player.sprite = 'images/char-boy.png';
+            player.x = (405 / 2);
+            player.y = 405;
+            keysOn = 1;
+            }, 500);
         collision = 0;
     } else {
             if (player.y > 435) {
@@ -159,9 +176,8 @@ Player.prototype.render = function() {
 
 var boris = new Enemy("Boris",0,50);
 var dmitri = new Enemy("Dmitri",1,-100);
-var natasha = new Enemy("Natasha",3,-50);
 var igor = new Enemy("Igor",2,150);
-
+var natasha = new Enemy("Natasha",3,-50);
 // drch: add player instance
 var player = new Player();
 
