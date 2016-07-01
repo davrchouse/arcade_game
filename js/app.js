@@ -54,7 +54,7 @@ Enemy.prototype.render = function() {
 
 var Player = function () {
     this.x = (405 / 2);
-    this.y = 430;
+    this.y = 405;
     this.movementX = 0;
     this.movementY = 0;
     this.sprite = 'images/char-boy.png';
@@ -78,10 +78,20 @@ Player.prototype.handleInput = function(inputKey) {
 };
 
 Player.prototype.update = function() {
+    if (this.y > 435) {
+        this.y = 435;
+    } else if (this.x < -10) {
+        this.x = -10;
+    } else if (this.y < -10) {
+        this.y = -10;
+    } else if (this.x > 412) {
+        this.x = 412;
+    } else {
     this.x += this.movementX;
     this.y += this.movementY;
     this.movementX = 0;
     this.movementY = 0;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
