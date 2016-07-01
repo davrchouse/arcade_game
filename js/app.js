@@ -33,7 +33,7 @@ Enemy.prototype.update = function(dt) {
             }
     } else {
         if (this.x < 555) {
-            this.x+=this.speed*dt;
+            this.x +=this.speed*dt;
         } else {
             this.x = 0;
         }
@@ -53,20 +53,41 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function () {
+    this.x = (405 / 2);
+    this.y = 430;
+    this.movementX = 0;
+    this.movementY = 0;
     this.sprite = 'images/char-boy.png';
 };
 
-Player.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+// handleInput function of each player that translates input key into
+// an x or y movement to add in the update function
+Player.prototype.handleInput = function(inputKey) {
+    if (inputKey === "left") {
+        this.movementX = -30;
+    }
+    else if (inputKey === "right") {
+        this.movementX = 30;
+    }
+     else if (inputKey === "down") {
+        this.movementY = 30;
+    }
+     else if (inputKey === "up") {
+        this.movementY = -30;
+    }
+};
+
+Player.prototype.update = function() {
+    this.x += this.movementX;
+    this.y += this.movementY;
+    this.movementX = 0;
+    this.movementY = 0;
 };
 
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
 
 
 // Now instantiate your objects.
@@ -81,6 +102,7 @@ var dmitri = new Enemy("Dmitri",1,1,100);
 var player = new Player();
 
 console.log(allEnemies);
+console.log(player);
 
 
 
