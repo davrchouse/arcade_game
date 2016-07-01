@@ -173,7 +173,8 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png',
         'images/enemy-bug2.png', // ADDED ALTERNATE DIRECTION FOR BUG
-        'images/bang.png' // ADDED EXPLOSION FOR COLLISIONS
+        'images/bang.png', // ADDED EXPLOSION FOR COLLISIONS
+        'images/chicken.png' // ADDED CHICKEN FOR PLAYER
     ]);
     Resources.onReady(init);
 

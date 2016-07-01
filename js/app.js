@@ -2,6 +2,7 @@
 // drch: add array for all enemies
 var allEnemies = [];
 var keysOn = 1;
+var playerSpeed = 30;
 
 var Enemy = function(name,row,speed) {
     // Udacity: Variables applied to each of our instances go here,
@@ -50,6 +51,8 @@ Enemy.prototype.render = function() {
     // ctx.fillRect(this.x,this.y,101,171);
     // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
     // ctx.fillRect(this.x,this.y+78,101,65);
+    // ctx.fillStyle = "red";   // uncomment to see goalLine
+    // ctx.fillRect(0,130,500,4);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -73,16 +76,16 @@ var Player = function () {
 Player.prototype.handleInput = function(inputKey) {
     if (keysOn === 1) {
         if (inputKey === "left") {
-            this.movementX = -30;
+            this.movementX = -playerSpeed;
         }
         else if (inputKey === "right") {
-            this.movementX = 30;
+            this.movementX = playerSpeed;
         }
          else if (inputKey === "down") {
-            this.movementY = 30;
+            this.movementY = playerSpeed;
         }
          else if (inputKey === "up") {
-            this.movementY = -30;
+            this.movementY = -playerSpeed;
         }
     } else {
         this.movementX = 0;
@@ -95,6 +98,7 @@ var collision = 0;
 Player.prototype.update = function() {
     var player = this;
     // set boundaries in png for the player and each enemy
+    var goalLine = 130;
     var playerLeft = player.x+20;
         var playerRight = player.x+79;
         var playerTop = player.y+65;
@@ -122,6 +126,9 @@ Player.prototype.update = function() {
             )
         ) {
             collision = 1;
+        } else if (playerBottom <= goalLine) {
+            player.x = (405 / 2);
+            player.y = 405;
         } else {
             collision = 0;
     };
