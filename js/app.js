@@ -5,6 +5,7 @@ var allEnemies = [];
 var keysOn = 1; // turns on or off keyboard after collision or goal line crossing
 var rowHeight = 83;
 var playerSpeed = rowHeight/3; // adjust speed of player here to stay inside each row
+// var pauseNum = 0;
 
 
 
@@ -53,8 +54,8 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     // ctx.fillStyle = "rgba(100,100,100,0.5)"; // uncomment to highlight total png for each enemy
     // ctx.fillRect(this.x,this.y,101,171);
-    // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
-    // ctx.fillRect(this.x,this.y+78,101,65);
+    ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
+    ctx.fillRect(this.x,this.y+78,101,65);
     // ctx.fillStyle = "red";   // uncomment to see goalLine
     // ctx.fillRect(0,132,500,4);
     // ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
@@ -106,6 +107,23 @@ Player.prototype.handleInput = function(inputKey) {
 var collision = 0;
 
 Player.prototype.update = function() {
+    if (player.y > 435) {
+        player.y = 435;
+    } else if (player.x < -10) {
+        player.x = -10;
+    } else if (player.y < -10) {
+        player.y = -10;
+    } else if (player.x > 412) {
+        player.x = 412;
+    } else {
+        player.x += player.movementX;
+        player.y += player.movementY;
+        player.movementX = 0;
+         player.movementY = 0;
+    }
+};
+
+Player.prototype.checkCollisions = function() {
     var player = this;
     // set boundaries in png for the player and each enemy
     var goalLine = 130;
@@ -119,7 +137,7 @@ Player.prototype.update = function() {
         var enemyRight = enemy.x+101;
         var enemyTop = enemy.y+78;
         var enemyBottom = enemy.y+143;
-        // label as a collision if the player touches any of the enemies
+        // look for a collision if the player touches any of the enemies
         if (
             (
                 ((playerTop <= enemyBottom) && (playerTop >= enemyTop))
@@ -135,59 +153,34 @@ Player.prototype.update = function() {
                 ((playerRight >= enemyLeft) && (playerRight <= enemyRight))
             )
         ) {
-            collision = 1;
+            console.log("collision! = ", collision);
+        // turn off keys and add explosion when a collision occurs
+        // (BUG: bang still can move at end / frame problem sometimes on reset to start position)
+            keysOn = 0;
+            player.sprite = 'images/bang.png';
+            if (audio.toggle === "on") {
+                audio.playHorn();
+            }
+            setTimeout(function(){
+                player.sprite = 'images/chicken.png';
+                player.x = (405 / 2);
+                player.y = 405;
+                keysOn = 1;
+                }, 500);
         } else if (playerBottom <= goalLine) {
             player.x = (405 / 2);
             player.y = 405;
-        } else {
-            collision = 0;
-    };
-    // if a collision occurs, reset the player to the starting point and reset the collision counter to 0;
-    if (collision === 1) {
-            // player.x = (405 / 2);
-            // player.y = 405;
-        // turn off keys and add explosion when a collision occurs
-        // (BUG: bang still can move at end / frame problem sometimes on reset to start position)
-        keysOn = 0;
-        player.sprite = 'images/bang.png';
-        if (audio.toggle === "on") {
-            audio.playHorn();
-        }
-        setTimeout(function(){
-            player.sprite = 'images/chicken.png';
-            player.x = (405 / 2);
-            player.y = 405;
-            keysOn = 1;
-            }, 500);
-        collision = 0;
-    } else {
-            if (player.y > 435) {
-                player.y = 435;
-            } else if (player.x < -10) {
-                player.x = -10;
-            } else if (player.y < -10) {
-                player.y = -10;
-            } else if (player.x > 412) {
-                player.x = 412;
-            } else {
-                player.x += player.movementX;
-                player.y += player.movementY;
-                player.movementX = 0;
-                player.movementY = 0;
-            }
-        }
+        };
     });
 };
 
 Player.prototype.render = function() {
     // ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight total png for player
     // ctx.fillRect(this.x,this.y,101,171);
-    // ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
-    // ctx.fillRect(this.x+20,this.y+65,63,74);
+    ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
+    ctx.fillRect(this.x+20,this.y+65,63,74);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-
 
 // drch: make multiple enemies with row, speed and direction info
 // Udacity: Now instantiate your objects.
@@ -201,6 +194,7 @@ var natasha = new Enemy("Natasha",3,-50);
 // drch: add player instance
 var player = new Player();
 
+console.log(allEnemies);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
