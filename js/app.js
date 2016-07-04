@@ -5,7 +5,7 @@ var allEnemies = [];
 var keysOn = 1; // turns on or off keyboard after collision or goal line crossing
 var rowHeight = 83;
 var playerSpeed = rowHeight/3; // adjust speed of player here to stay inside each row
-// var pauseNum = 0;
+var pauseNum = 0;
 
 
 
@@ -104,8 +104,6 @@ Player.prototype.handleInput = function(inputKey) {
     }
 };
 
-var collision = 0;
-
 Player.prototype.update = function() {
     if (player.y > 435) {
         player.y = 435;
@@ -153,25 +151,43 @@ Player.prototype.checkCollisions = function() {
                 ((playerRight >= enemyLeft) && (playerRight <= enemyRight))
             )
         ) {
-            console.log("collision! = ", collision);
+            console.log("collision!");
+            pauseNum = 1;
         // turn off keys and add explosion when a collision occurs
         // (BUG: bang still can move at end / frame problem sometimes on reset to start position)
-            keysOn = 0;
-            player.sprite = 'images/bang.png';
-            if (audio.toggle === "on") {
-                audio.playHorn();
-            }
-            setTimeout(function(){
-                player.sprite = 'images/chicken.png';
-                player.x = (405 / 2);
-                player.y = 405;
-                keysOn = 1;
-                }, 500);
         } else if (playerBottom <= goalLine) {
             player.x = (405 / 2);
             player.y = 405;
+            console.log("success!");
+            pauseNum = 1;
         };
     });
+};
+
+Player.prototype.crash = function() {
+    keysOn = 0;
+    player.sprite = 'images/bang.png';
+    if (audio.toggle === "on") {
+        audio.playHorn();
+    }
+    setTimeout(player.resetPlayer,500);
+};
+
+Player.prototype.resetPlayer = function() {
+    player.sprite = 'images/chicken.png';
+    player.x = (405 / 2);
+    player.y = 405;
+    keysOn = 1;
+    pauseNum = 0;
+};
+
+Player.prototype.goalLine = function() {
+    keysOn = 0;
+    player.sprite = 'images/bang.png';
+    if (audio.toggle === "on") {
+        audio.playHorn();
+    }
+    setTimeout(player.resetPlayer,500);
 };
 
 Player.prototype.render = function() {

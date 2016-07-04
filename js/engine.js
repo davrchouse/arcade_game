@@ -80,8 +80,18 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        if (pauseNum === 0) {
         updateEntities(dt);
-         player.checkCollisions();
+        player.checkCollisions();
+        }
+        if (pauseNum === 1) {
+        player.crash();
+        // console.log("pauseNum =", pauseNum);
+        }
+        if (pauseNum === 2) {
+        player.goalLine();
+        // console.log("pauseNum =", pauseNum);
+        }
     }
 
     /* This is called by the update function and loops through all of the
