@@ -80,8 +80,18 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        updateEntities(dt);
-         player.checkCollisions();
+        if (pauseNum === 0) {
+            updateEntities(dt);
+            player.checkCollisions();
+        }
+        if (pauseNum === 1) {
+            player.crash();
+            // console.log("pauseNum =", pauseNum);
+        }
+        if (pauseNum === 2) {
+            player.goalLine();
+            // console.log("pauseNum =", pauseNum);
+        }
     }
 
     /* This is called by the update function and loops through all of the
@@ -142,6 +152,12 @@ var Engine = (function(global) {
             }
         }
 
+        ctx.font = "30px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx. lineWidth = 3;
+        ctx.fillText("Why did the chicken cross the road?", canvas.width / 2, canvas.height - 18);
+
         renderEntities();
     }
 
@@ -158,6 +174,10 @@ var Engine = (function(global) {
         });
 
         player.render();
+        if (pauseNum === 2) {
+            funny.update(player);
+            funny.render();
+        }
     }
 
     /* This function does nothing but it could have been a good place to
@@ -192,7 +212,9 @@ var Engine = (function(global) {
         'images/car_boris.png',
         'images/car_gregor.png',
         'images/car_theodor.png',
-        'images/sky.png' // ADD SKYLINE
+        'images/sky.png', // ADD SKYLINE
+        'images/caption-balloon1.png',
+        'images/caption-balloon2.png'
     ]);
     Resources.onReady(init);
 

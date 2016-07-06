@@ -5,8 +5,8 @@ var allEnemies = [];
 var keysOn = 1; // turns on or off keyboard after collision or goal line crossing
 var rowHeight = 83;
 var playerSpeed = rowHeight/3; // adjust speed of player here to stay inside each row
-// var pauseNum = 0;
-
+var pauseNum = 0;
+var counter = 0;
 
 
 var Enemy = function(name,row,speed) {
@@ -54,8 +54,8 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     // ctx.fillStyle = "rgba(100,100,100,0.5)"; // uncomment to highlight total png for each enemy
     // ctx.fillRect(this.x,this.y,101,171);
-    ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
-    ctx.fillRect(this.x,this.y+78,101,65);
+    // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
+    // ctx.fillRect(this.x,this.y+78,101,65);
     // ctx.fillStyle = "red";   // uncomment to see goalLine
     // ctx.fillRect(0,132,500,4);
     // ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
@@ -88,9 +88,11 @@ Player.prototype.handleInput = function(inputKey) {
     if (keysOn === 1) {
         if (inputKey === "left") {
             this.movementX = -playerSpeed;
+            this.sprite = "images/chicken2.png";
         }
         else if (inputKey === "right") {
             this.movementX = playerSpeed;
+            this.sprite = "images/chicken.png";
         }
          else if (inputKey === "down") {
             this.movementY = playerSpeed;
@@ -103,8 +105,6 @@ Player.prototype.handleInput = function(inputKey) {
         this.movementY = 0;
     }
 };
-
-var collision = 0;
 
 Player.prototype.update = function() {
     if (player.y > 435) {
@@ -153,32 +153,67 @@ Player.prototype.checkCollisions = function() {
                 ((playerRight >= enemyLeft) && (playerRight <= enemyRight))
             )
         ) {
-            console.log("collision! = ", collision);
+            // console.log("collision!");
+            pauseNum = 1;
         // turn off keys and add explosion when a collision occurs
         // (BUG: bang still can move at end / frame problem sometimes on reset to start position)
-            keysOn = 0;
-            player.sprite = 'images/bang.png';
-            if (audio.toggle === "on") {
-                audio.playHorn();
-            }
-            setTimeout(function(){
-                player.sprite = 'images/chicken.png';
-                player.x = (405 / 2);
-                player.y = 405;
-                keysOn = 1;
-                }, 500);
         } else if (playerBottom <= goalLine) {
-            player.x = (405 / 2);
-            player.y = 405;
+            // player.x = (405 / 2);
+            // player.y = 405;
+            // console.log("success!");
+            pauseNum = 2;
         };
     });
+};
+
+Player.prototype.crash = function() {
+    keysOn = 0;
+    if (audio.toggle === "on") {
+            audio.playHorn();
+        }
+    if (counter < 30) {
+        player.sprite = 'images/bang.png';
+        counter+=1;
+    } else {
+    player.resetPlayer();
+    }
+};
+
+Player.prototype.resetPlayer = function() {
+    player.sprite = 'images/chicken.png';
+    player.x = (405 / 2);
+    player.y = 405;
+    keysOn = 1;
+    pauseNum = 0;
+    counter = 0;
+};
+
+
+
+Player.prototype.goalLine = function() {
+    keysOn = 0;
+    if (counter < 300) {
+        if (this.x >= 202.5) {
+            this.sprite = 'images/chicken2.png';
+        } else {
+            this.sprite = 'images/chicken.png';
+        }
+        counter+=1;
+        // console.log(counter);
+    } else {
+        player.resetPlayer();
+    }
+    // if (audio.toggle === "on") {
+    //     audio.playHorn();
+    // }
+    // setTimeout(player.resetPlayer,5000);
 };
 
 Player.prototype.render = function() {
     // ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight total png for player
     // ctx.fillRect(this.x,this.y,101,171);
-    ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
-    ctx.fillRect(this.x+20,this.y+65,63,74);
+    // ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
+    // ctx.fillRect(this.x+20,this.y+65,63,74);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -194,7 +229,7 @@ var natasha = new Enemy("Natasha",3,-50);
 // drch: add player instance
 var player = new Player();
 
-console.log(allEnemies);
+// console.log(allEnemies);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

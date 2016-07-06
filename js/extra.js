@@ -31,6 +31,137 @@ audio.playHorn = function() {
 	crash.play();
 }
 
+
+var jokes = {
+	"punchlines":[
+		"50 to maximum of 60 characters ----- - --- ------ --- _-_-_-",
+		"40 to 49 characters - ---- _-- ---_-- -_- -- -_--",
+		"30 to 39 characters --- - --S-- --- -K-",
+		"20 to 29 chars to work -- -S-",
+		"10 to 19 chars work",
+		"< than 10"],
+	"lengths":[],
+	"modH": [],
+	"lineH": [],
+	"fontsize": []
+};
+
+
+// modified from html5 tutorial on wrap text for canvas
+jokes.measure = function() {
+	for (joke in jokes.punchlines) {
+		var jokeLength = jokes.punchlines[joke].length;
+		// console.log("joke",jokes.punchlines[joke]);
+		// console.log("length",jokeLength);
+
+		jokes.lengths = jokeLength;
+		// // jokes.totalLines[5]=6;
+		// console.log("test",	jokes.totalLines[5]);
+		if (jokeLength < 50) {
+			if (jokeLength < 40) {
+				if (jokeLength < 30) {
+					if (jokeLength < 20) {
+						if (jokeLength < 10) {
+							jokes.modH[joke] = 1;
+							jokes.fontsize[joke] = "30px sans-serif";
+							jokes.lineH[joke] = 30;
+						} else {
+							jokes.modH[joke] = 1.7; //lineH 26 x -0 y -10
+							jokes.fontsize[joke] = "26px sans-serif";
+							jokes.lineH[joke] = 26;
+						}
+					} else {
+						jokes.modH[joke] = 2.5;
+						jokes.fontsize[joke] = "22px sans-serif"; //lineH 22 x -0 y -22
+						jokes.lineH[joke] = 22;
+						}
+				} else {
+					jokes.modH[joke] = 2.5;
+					jokes.fontsize[joke] = "20px sans-serif";
+					jokes.lineH[joke] = 20;
+				}
+			} else {
+				jokes.modH[joke] = 3.5;
+				jokes.fontsize[joke] = "18px sans-serif";
+				jokes.lineH[joke] = 18;
+			}
+		} else {
+			jokes.modH[joke] = 3.5; //lineH 16 x -88 -38
+			jokes.fontsize[joke] = "17px sans-serif";
+			jokes.lineH[joke] = 17;
+		}
+	}
+};
+
+jokes.wrapText = function(jokeNum, x, y, maxWidth, player) {
+	// for (joke in jokes.punchlines) {
+    var lines = jokes.punchlines[jokeNum].split("\n"); //splits the text words into an array with entries separated by a double \n\n
+     for (var i = 0; i < lines.length; i++) {
+
+		var words = lines[i].split(' '); //split lines ino a words array that has each word as a separate entry
+       	var line = '';
+
+       	ctx.font = jokes.fontsize[jokeNum];
+        
+        var modH = jokes.modH[jokeNum];
+        var lineH = jokes.lineH[jokeNum];
+     	var modX;
+        if (player.x >= 202.5) {
+			modX = 90 + x;
+		} else {
+			modX = 120 + x;
+		}
+		// modX = 90 + (x - 0);
+        var modY = y - (lineH*(modH)) + 90;
+        ctx.textAlign = "center";
+        for (var n = 0; n < words.length; n++) {
+            var testLine = line + words[n] + ' '; // add the next word in the array to the test line
+
+            var metrics = ctx.measureText(testLine); // see how wide the test line is
+            var testWidth = metrics.width;
+            if (testWidth > maxWidth && n > 0) {
+               	ctx.fillText(line, modX, modY); // add a line if it is greater than the maxwidth
+                line = words[n] + ' ';
+                modY += lineH;
+            } else {
+                line = testLine;
+            }
+        }
+        ctx.fillText(line, modX, modY);
+        modY += lineH;
+    }
+};
+
+jokes.measure();
+
+var Joke = function(punchlines) {
+    this.sprite = 'images/caption-balloon1.png';
+    this.x = 0;
+    this.y = 0;
+};
+
+
+var funny = new Joke;
+
+Joke.prototype.update = function(player) {
+	if (player.x >= 202.5) {
+		this.sprite = 'images/caption-balloon1.png';
+ 		this.x = player.x - 190;
+ 		this.y = player.y + 120;
+	} else {
+		this.sprite = 'images/caption-balloon2.png';
+		this.x = player.x + 100;
+		this.y = player.y + 120;
+	}
+};
+
+Joke.prototype.render = function() {
+ 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+ 	ctx.fillStyle = "black";
+ 	jokes.wrapText(5, this.x, this.y, 140, player);
+
+};
+
 function loadExtras() {
 	audio.display()
 }
