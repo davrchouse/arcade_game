@@ -78,8 +78,6 @@ var Player = function () {
     this.movementX = 0;
     this.movementY = 0;
     this.sprite = 'images/chicken.png';
-    // var test = this.sprite.width; // how to find width of sprite for the enemy to bump into it?
-    // console.log(test); // ??
 };
 
 // drch: handleInput function of each player that translates input key into
@@ -153,14 +151,8 @@ Player.prototype.checkCollisions = function() {
                 ((playerRight >= enemyLeft) && (playerRight <= enemyRight))
             )
         ) {
-            // console.log("collision!");
             pauseNum = 1;
-        // turn off keys and add explosion when a collision occurs
-        // (BUG: bang still can move at end / frame problem sometimes on reset to start position)
         } else if (playerBottom <= goalLine) {
-            // player.x = (405 / 2);
-            // player.y = 405;
-            // console.log("success!");
             pauseNum = 2;
         };
     });
@@ -198,15 +190,13 @@ Player.prototype.goalLine = function() {
         } else {
             this.sprite = 'images/chicken.png';
         }
+         if (audio.toggle === "on" && counter === 30) {
+            audio.playChicken();
+        }
         counter+=1;
-        // console.log(counter);
     } else {
         player.resetPlayer();
     }
-    // if (audio.toggle === "on") {
-    //     audio.playHorn();
-    // }
-    // setTimeout(player.resetPlayer,5000);
 };
 
 Player.prototype.render = function() {

@@ -86,11 +86,9 @@ var Engine = (function(global) {
         }
         if (pauseNum === 1) {
             player.crash();
-            // console.log("pauseNum =", pauseNum);
         }
         if (pauseNum === 2) {
             player.goalLine();
-            // console.log("pauseNum =", pauseNum);
         }
     }
 

@@ -3,15 +3,18 @@
 var audio = {
 	"toggle": "off",
     "traffic": "audio/traffic.ogg",
-    "horn": "audio/horn.ogg"
+    "horn": "audio/horn.ogg",
+    "chicken": "audio/chicken.ogg"
 };
 
 var HTMLaudio1 = '<audio id="traffic" loop><source src='+audio.traffic+' type="audio/ogg">Your browser does not support the audio element.</audio>';
 var HTMLaudio2 = '<audio id="horn"><source src='+audio.horn+' type="audio/ogg"></audio><button onclick="audio.soundOnOff()" type="button">Turn On/Off Sound</button>';
+var HTMLaudio3 = '<audio id="chicken"><source src='+audio.chicken+' type="audio/ogg"></audio>';
+
+
 
 audio.display = function() {
-	$("body").append(HTMLaudio1);
-	$("body").append(HTMLaudio2);
+	$("body").append(HTMLaudio1, HTMLaudio2, HTMLaudio3);
 };
 
 audio.soundOnOff = function() {
@@ -29,6 +32,12 @@ audio.playHorn = function() {
 	crash = document.getElementById("horn");
 	crash.volume = 0.3;
 	crash.play();
+}
+
+audio.playChicken = function() {
+	goal = document.getElementById("chicken");
+	goal.volume = 0.3;
+	goal.play();
 }
 
 
