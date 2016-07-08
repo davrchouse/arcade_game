@@ -117,6 +117,8 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
 
+        ctx.drawImage(Resources.get('images/sky.png'), 0, 0);
+
         var rowImages = [
                 'images/grass-block.png',   // Top row is water
                 'images/upper-road0.png',   // Row 1 of 4 of stone
@@ -147,11 +149,11 @@ var Engine = (function(global) {
             }
         }
 
-        ctx.font = "30px sans-serif";
-        ctx.textAlign = "center";
-        ctx.fillStyle = "white";
-        ctx. lineWidth = 3;
-        ctx.fillText("Why did the chicken cross the road?", canvas.width / 2, canvas.height - 18);
+        // ctx.font = "30px sans-serif";
+        // ctx.textAlign = "center";
+        // ctx.fillStyle = "white";
+        // ctx. lineWidth = 3;
+        // ctx.fillText("Why did the chicken cross the road?", canvas.width / 2, canvas.height - 18);
 
         renderEntities();
     }
@@ -164,11 +166,15 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        question.update(pauseNum);
+        question.render();
+
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
         player.render();
+
         if (pauseNum === 2) {
             funny.update(player);
             funny.render();
@@ -207,6 +213,7 @@ var Engine = (function(global) {
         'images/car_boris.png',
         'images/car_gregor.png',
         'images/car_theodor.png',
+        'images/sky.png',
         'images/caption-balloon1.png',
         'images/caption-balloon2.png'
     ]);

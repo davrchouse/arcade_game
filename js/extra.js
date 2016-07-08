@@ -40,6 +40,34 @@ audio.playChicken = function() {
 	goal.play();
 }
 
+var question = {
+	"question": "Why did the chicken cross the road?",
+	"font": "36px sans-serif",
+	"color": "white",
+	"Xpos": columns*101 / 2,
+	"Ypos": 100
+}
+
+question.update = function(pauseNum) {
+	if (pauseNum === 2) {
+		if (counter < 45) {
+			//noop
+		}
+		// counter+=1;
+	} else {
+		question.color = "white";
+		question.Ypos = 100;
+	}
+};
+
+question.render = function() {
+	ctx.font = question.font;
+	ctx.fillStyle = question.color;
+	ctx.textAlign = "center";
+	ctx.lineWidth = 3;
+	ctx.fillText(question.question, question.Xpos, question.Ypos);
+}
+
 
 var jokes = {
 	"punchlines":[
@@ -106,12 +134,9 @@ jokes.wrapText = function(jokeNum, x, y, maxWidth, player) {
 	// for (joke in jokes.punchlines) {
     var lines = jokes.punchlines[jokeNum].split("\n"); //splits the text words into an array with entries separated by a double \n\n
      for (var i = 0; i < lines.length; i++) {
-
 		var words = lines[i].split(' '); //split lines ino a words array that has each word as a separate entry
        	var line = '';
-
        	ctx.font = jokes.fontsize[jokeNum];
-        
         var modH = jokes.modH[jokeNum];
         var lineH = jokes.lineH[jokeNum];
      	var modX;
@@ -120,7 +145,6 @@ jokes.wrapText = function(jokeNum, x, y, maxWidth, player) {
 		} else {
 			modX = 120 + x;
 		}
-		// modX = 90 + (x - 0);
         var modY = y - (lineH*(modH)) + 90;
         ctx.textAlign = "center";
         for (var n = 0; n < words.length; n++) {

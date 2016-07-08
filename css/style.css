@@ -9,9 +9,11 @@ body {
   	margin-right: 10px;
 }
 
+p {
+	margin: 5px;
+}
+
 canvas {
-	background-image: url("sky.png");
-	background-size: 100%;
 	min-width: 768px;
 }
 
@@ -22,12 +24,11 @@ canvas {
 	flex-wrap: wrap;
   	/*justify-content: space-around;*/
   	padding: 0;
-
 }
 
 #sidebar {
 	/*width: 15%;*/
-	  	background-color: red;
+/*	  	background-color: red;*/
 	  	width: calc(100% - 768px);
 	  	/*min-width: 200px;*/
 	  	font-family: sans-serif;

@@ -1,14 +1,6 @@
 // Udacity: Enemies our player must avoid
 // drch: add array for all enemies;
 var allEnemies = [];
-// drch: global variables to easily change features
-var keysOn = 1; // turns on or off keyboard after collision or goal line crossing
-var rowHeight = 83;
-var playerSpeed = rowHeight/3; // adjust speed of player here to stay inside each row
-var pauseNum = 0;
-var counter = 0;
-var columns = 7;
-
 
 var Enemy = function(name,row,speed) {
     // Udacity: Variables applied to each of our instances go here,
@@ -106,19 +98,19 @@ Player.prototype.handleInput = function(inputKey) {
 };
 
 Player.prototype.update = function() {
-    if (player.y > 435) {
+    if (this.y > 435) {
         player.y = 435;
-    } else if (player.x < 0) {
-        player.x = 0;
-    } else if (player.y < (-83/3)) {
-        player.y = -83/3;
-    } else if (player.x > (101*6)) {
-        player.x = 101*6;
+    } else if (this.x < 0) {
+        this.x = 0;
+    } else if (this.y < -playerSpeed) {
+        this.y = -playerSpeed;
+    } else if (this.x > (101*6)) {
+        this.x = 101*6;
     } else {
-        player.x += player.movementX;
-        player.y += player.movementY;
-        player.movementX = 0;
-         player.movementY = 0;
+        this.x += this.movementX;
+        this.y += this.movementY;
+        this.movementX = 0;
+        this.movementY = 0;
     }
 };
 
@@ -165,17 +157,17 @@ Player.prototype.crash = function() {
             audio.playHorn();
         }
     if (counter < 30) {
-        player.sprite = 'images/bang.png';
+        this.sprite = 'images/bang.png';
         counter+=1;
     } else {
-    player.resetPlayer();
+    this.resetPlayer();
     }
 };
 
 Player.prototype.resetPlayer = function() {
-    player.sprite = 'images/chicken.png';
-    player.x = (405 / 2);
-    player.y = 405;
+    this.sprite = 'images/chicken.png';
+    this.x = (101*(columns-1) / 2);
+    this.y = 405;
     keysOn = 1;
     pauseNum = 0;
     counter = 0;
@@ -185,7 +177,11 @@ Player.prototype.resetPlayer = function() {
 
 Player.prototype.goalLine = function() {
     keysOn = 0;
-    if (counter < 300) {
+    if (counter < 320) {
+        if (counter < 20) {
+            question.color = "black";
+            question.Ypos-=3;
+        }
         if (this.x >= 202.5) {
             this.sprite = 'images/chicken2.png';
         } else {
@@ -196,7 +192,7 @@ Player.prototype.goalLine = function() {
         }
         counter+=1;
     } else {
-        player.resetPlayer();
+        this.resetPlayer();
     }
 };
 
