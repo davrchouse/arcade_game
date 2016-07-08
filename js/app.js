@@ -7,6 +7,7 @@ var rowHeight = 83;
 var playerSpeed = rowHeight/3; // adjust speed of player here to stay inside each row
 var pauseNum = 0;
 var counter = 0;
+var columns = 7;
 
 
 var Enemy = function(name,row,speed) {
@@ -17,7 +18,7 @@ var Enemy = function(name,row,speed) {
     this.name = name;
     this.speed = speed;
     if (speed < 0) {
-        this.x = 555;
+        this.x = (101*columns);
         this.sprite = 'images/car_ivan2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
         this.x = 0;
@@ -36,16 +37,16 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     if (this.speed < 0) {
-        if (this.x > -100) {
+        if (this.x > -101) {
             this.x+=this.speed*dt;
         } else {
-            this.x = 555;
+            this.x = (101*columns);
             }
     } else {
-        if (this.x < 555) {
+        if (this.x < 101*columns) {
             this.x +=this.speed*dt;
         } else {
-            this.x = 0;
+            this.x = -101;
         }
     }
 };
@@ -73,7 +74,7 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function () {
-    this.x = (405 / 2);
+    this.x = (101*(columns-1) / 2);
     this.y = 405;
     this.movementX = 0;
     this.movementY = 0;
@@ -107,12 +108,12 @@ Player.prototype.handleInput = function(inputKey) {
 Player.prototype.update = function() {
     if (player.y > 435) {
         player.y = 435;
-    } else if (player.x < -10) {
-        player.x = -10;
-    } else if (player.y < -10) {
-        player.y = -10;
-    } else if (player.x > 412) {
-        player.x = 412;
+    } else if (player.x < 0) {
+        player.x = 0;
+    } else if (player.y < (-83/3)) {
+        player.y = -83/3;
+    } else if (player.x > (101*6)) {
+        player.x = 101*6;
     } else {
         player.x += player.movementX;
         player.y += player.movementY;

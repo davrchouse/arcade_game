@@ -25,10 +25,10 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
+    canvas.width = (101*columns);
     canvas.height = 606;
 
-    doc.body.appendChild(canvas);
+    doc.getElementById("main").appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -117,9 +117,6 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
 
-        // drch: add sklyine to top of canvas
-        ctx.drawImage(Resources.get('images/sky.png'), 0, 0);
-
         var rowImages = [
                 'images/grass-block.png',   // Top row is water
                 'images/upper-road0.png',   // Row 1 of 4 of stone
@@ -130,7 +127,7 @@ var Engine = (function(global) {
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
             numRows = 7,
-            numCols = 5,
+            numCols = columns,
             row, col;
 
         /* Loop through the number of rows and columns we've defined above
@@ -210,7 +207,6 @@ var Engine = (function(global) {
         'images/car_boris.png',
         'images/car_gregor.png',
         'images/car_theodor.png',
-        'images/sky.png', // ADD SKYLINE
         'images/caption-balloon1.png',
         'images/caption-balloon2.png'
     ]);
