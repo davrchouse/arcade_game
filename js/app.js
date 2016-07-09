@@ -303,10 +303,12 @@ Player.prototype.render = function() {
 // var natasha = new Enemy("Natasha",3,-50);
 var natashaL0 = new Natasha(0,-1);
 var igorL0 = new Igor(0,-1);
+var gregorL0 = new Gregor(0,-1);
 
 
 var borisR1 = new Boris(1,1);
 var gregorR1 = new Gregor(1,1);
+var igorR1 = new Igor(1,1);
 
 var ivanL2 = new Ivan(2,-1);
 var dmitriL2 = new Dmitri(2,-1);
@@ -322,18 +324,16 @@ var allEnemies = [];
 var player = new Player()
 
 function StartLevel() {
-    if (level < 5) {
+    if (level < 2) {
         allEnemies = [
-            natashaL0,
-            igorL0,
-            gregorR1,
+            gregorL0,
             borisR1,
             ivanL2,
             dmitriL2,
             theodorR3
         ];
     }
-    else if (level >= 5) {
+    else if (level < 4) {
         allEnemies = [
             natashaL0,
             // igorL0,
