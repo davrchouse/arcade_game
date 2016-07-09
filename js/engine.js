@@ -206,13 +206,20 @@ var Engine = (function(global) {
         'images/upper-road1.png', // ADDED NEW ROADS
         'images/upper-road2.png',
         'images/upper-road0.png',
-        'images/car_ivan2.png', // ADDED CARS INSTEAD OF BUGS
+        'images/car_ivan.png', // ADDED CARS INSTEAD OF BUGS
+        'images/car_ivan2.png',
         'images/car_dmitri.png',
+        'images/car_dmitri2.png',
         'images/car_natasha.png',
+        'images/car_natasha2.png',
         'images/car_igor.png',
+        'images/car_igor2.png',
         'images/car_boris.png',
+        'images/car_boris2.png',
         'images/car_gregor.png',
+        'images/car_gregor2.png',
         'images/car_theodor.png',
+        'images/car_theodor2.png',
         'images/sky.png',
         'images/caption-balloon1.png',
         'images/caption-balloon2.png'

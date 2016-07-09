@@ -6,3 +6,4 @@ var playerSpeed = rowHeight/3; // adjust speed of player here to stay inside eac
 var pauseNum = 0;
 var counter = 0;
 var columns = 7;
+var level = 1;
