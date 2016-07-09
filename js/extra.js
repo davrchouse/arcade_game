@@ -71,6 +71,20 @@ question.render = function() {
 
 var jokes = {
 	"punchlines":[
+		"She wanted to lay it on the line.",
+		"It was half-past hen!",
+		"For fowl purposes.",
+		"Someone was egging her on.",
+		"Because she was poultry in motion.",
+		"She was winging it.",
+		"She wanted to fly the coop.",
+		"She was free range.",
+		"Ask the chicken!",
+		"To avoid Colonel Saunders.",
+		"Because the armadillo told him it was safe.",
+		"In protest of current roadkill legislation.",
+		"I dream of a world where chickens can cross the road without having their motives questioned!",
+		"I just felt like crossing the road, ok?",
 		"50 to maximum of 60 characters ----- - --- ------ --- _-_-_-",
 		"40 to 49 characters - ---- _-- ---_-- -_- -- -_--",
 		"30 to 39 characters --- - --S-- --- -K-",
@@ -191,7 +205,7 @@ Joke.prototype.update = function(player) {
 Joke.prototype.render = function() {
  	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
  	ctx.fillStyle = "black";
- 	jokes.wrapText(5, this.x, this.y, 140, player);
+ 	jokes.wrapText(4, this.x, this.y, 140, player);
 
 };
 

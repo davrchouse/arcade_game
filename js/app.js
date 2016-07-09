@@ -47,8 +47,8 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     // ctx.fillStyle = "rgba(100,100,100,0.5)"; // uncomment to highlight total png for each enemy
     // ctx.fillRect(this.x,this.y,101,171);
-    // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
-    // ctx.fillRect(this.x,this.y+78,101,65);
+    ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
+    ctx.fillRect(this.x,this.y+78,101,65);
     // ctx.fillStyle = "red";   // uncomment to see goalLine
     // ctx.fillRect(0,132,500,4);
     // ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
@@ -118,11 +118,11 @@ Player.prototype.checkCollisions = function() {
     var player = this;
     // set boundaries in png for the player and each enemy
     var goalLine = 130;
-    var playerLeft = player.x+20;
-        var playerRight = player.x+79;
-        var playerTop = player.y+65;
-        var playerBottom = player.y+139;
-        var playerMiddle = player.y+102;
+    var playerLeft = player.x+5;
+    var playerRight = player.x+95;
+    var playerTop = player.y+72;
+    var playerBottom = player.y+132;
+    var playerMiddle = player.y+102;
     allEnemies.forEach(function(enemy) {
         var enemyLeft = enemy.x;
         var enemyRight = enemy.x+101;
@@ -199,8 +199,8 @@ Player.prototype.goalLine = function() {
 Player.prototype.render = function() {
     // ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight total png for player
     // ctx.fillRect(this.x,this.y,101,171);
-    // ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
-    // ctx.fillRect(this.x+20,this.y+65,63,74);
+    ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
+    ctx.fillRect(this.x+5,this.y+72,90,60);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
