@@ -166,8 +166,8 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        question.update(pauseNum);
-        question.render();
+        extra.update(pauseNum);
+        extra.render();
 
         allEnemies.forEach(function(enemy) {
             enemy.render();

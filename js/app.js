@@ -281,8 +281,8 @@ Player.prototype.goalLine = function() {
     keysOn = 0;
     if (counter < 320) {
         if (counter < 20) {
-            question.color = "black";
-            question.Ypos-=3;
+            extra.question.color = "black";
+            extra.question.Ypos-=3;
         }
         if (this.x >= 202.5) {
             this.sprite = 'images/chicken2.png';

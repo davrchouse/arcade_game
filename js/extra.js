@@ -40,33 +40,55 @@ audio.playChicken = function() {
 	goal.play();
 }
 
-var question = {
-	"question": "Why did the chicken cross the road?",
-	"font": "36px sans-serif",
-	"color": "white",
-	"Xpos": columns*101 / 2,
-	"Ypos": 100
+var extra = {
+	"question": {
+		"textQ": "Why did the chicken cross the road?",
+		"font": "36px sans-serif",
+		"color": "white",
+		"Xpos": columns*101 / 2,
+		"Ypos": 100
+	}
 }
 
-question.update = function(pauseNum) {
+extra.update = function(pauseNum) {
 	if (pauseNum === 2) {
 		if (counter < 45) {
 			//noop
 		}
 		// counter+=1;
 	} else {
-		question.color = "white";
-		question.Ypos = 100;
+		extra.question.color = "white";
+		extra.question.Ypos = 100;
 	}
 };
 
-question.render = function() {
-	ctx.font = question.font;
-	ctx.fillStyle = question.color;
+extra.render = function() {
+	ctx.font = extra.question.font;
+	ctx.fillStyle = extra.question.color;
 	ctx.textAlign = "center";
 	ctx.lineWidth = 3;
-	ctx.fillText(question.question, question.Xpos, question.Ypos);
-}
+	ctx.fillText(extra.question.textQ, extra.question.Xpos, extra.question.Ypos);
+	ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight collision zone on each enemy
+	ctx.fillRect(15,560,305,38);
+	ctx.textAlign = "left";
+	ctx.font = "30px sans-serif";
+	ctx.fillStyle = "black";
+	ctx.fillText("Level", 22,590)
+	for (var x = 0; x < 10; x++) {
+		ctx.beginPath();
+    	ctx.arc(120+(x*20), 580, 8, 0, 2 * Math.PI, false);
+    	if (x < level-1) {
+    		ctx.fillStyle = 'green';
+    	} else {
+    		ctx.fillStyle = 'black';
+    	}
+    	ctx.fill();
+    	ctx.lineWidth = 2;
+    	ctx.strokeStyle = '#003300';
+    	ctx.stroke();
+    	ctx.closePath();
+    }
+};
 
 
 var jokes = {
