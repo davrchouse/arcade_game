@@ -1,19 +1,21 @@
 // extra.js for controlling audio and displaying chicken jokes
 
+
+
+// audio additions
+
 var audio = {
 	"toggle": "off",
-    "traffic": "audio/traffic.ogg",
-    "horn": "audio/horn.ogg",
-    "chicken": "audio/chicken.ogg",
-    "won": "audio/tada.ogg"
+    "traffic": "audio/traffic.ogg", //	converted from soundbible.com/298-City-Traffic-Ambiance.html (Public Domain,CC0)
+    "horn": "audio/horn.ogg",		//	converted from soundbible.com/60-Car-Horn-Honk-1.html (personal use only)
+    "chicken": "audio/chicken.ogg", //	converted from freesound.org/people/Rudmer_Rotteveel/sounds/316920/ (Public Domain,CC0)
+    "won": "audio/tada.ogg"			//	converted from soundbible.org/1003-Ta-Da.html (CC 3.0, Mike Koenig)
 };
 
 var HTMLaudio1 = '<audio id="traffic" loop><source src='+audio.traffic+' type="audio/ogg">Your browser does not support the audio element.</audio>';
 var HTMLaudio2 = '<audio id="horn"><source src='+audio.horn+' type="audio/ogg"></audio>';
 var HTMLaudio3 = '<audio id="chicken"><source src='+audio.chicken+' type="audio/ogg"></audio>';
 var HTMLaudio4 = '<audio id="tada"><source src='+audio.won+' type="audio/ogg"></audio>';
-
-
 
 audio.display = function() {
 	$("#sidebar").append(HTMLaudio1, HTMLaudio2, HTMLaudio3, HTMLaudio4);
@@ -48,6 +50,8 @@ audio.playTada = function() {
 	won.play();
 }
 
+// joke text formatting and display
+
 var extra = {
 	"question": {
 		"textQ": "Why did the chicken cross the road?",
@@ -55,10 +59,6 @@ var extra = {
 		"color": "white",
 		"Xpos": columns*101 / 2,
 		"Ypos": 100
-	},
-	"end": {
-		"textEnd": ["Congratulations!", "The chicken has crossed the road!"],
-		"color": "blue"
 	}
 };
 
@@ -75,7 +75,7 @@ extra.render = function() {
 	ctx.textAlign = "center";
 	ctx.lineWidth = 3;
 	ctx.fillText(extra.question.textQ, extra.question.Xpos, extra.question.Ypos);
-	ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight collision zone on each enemy
+	ctx.fillStyle = "rgba(255,255,255,0.5)";
 	ctx.fillRect(15,560,305,38);
 	ctx.fillRect(545,560,150,38)
 	ctx.textAlign = "left";
@@ -106,6 +106,7 @@ extra.render = function() {
 };
 
 
+// jokes collected from the interwebs (yahoo answers pages, etc; personal use only)
 var jokes = {
 	"punchlines":[
 		"She was winging it.",
@@ -124,17 +125,11 @@ var jokes = {
 	"fontsize": []
 };
 
-
-// modified from html5 tutorial on wrap text for canvas
+//format jokes for display based on character length
 jokes.measure = function() {
 	for (joke in jokes.punchlines) {
 		var jokeLength = jokes.punchlines[joke].length;
-		// console.log("joke",jokes.punchlines[joke]);
-		// console.log("length",jokeLength);
-
 		jokes.lengths = jokeLength;
-		// // jokes.totalLines[5]=6;
-		// console.log("test",	jokes.totalLines[5]);
 		if (jokeLength < 50) {
 			if (jokeLength < 40) {
 				if (jokeLength < 30) {
@@ -144,13 +139,13 @@ jokes.measure = function() {
 							jokes.fontsize[joke] = "30px sans-serif";
 							jokes.lineH[joke] = 30;
 						} else {
-							jokes.modH[joke] = 1.7; //lineH 26 x -0 y -10
+							jokes.modH[joke] = 1.7;
 							jokes.fontsize[joke] = "26px sans-serif";
 							jokes.lineH[joke] = 26;
 						}
 					} else {
 						jokes.modH[joke] = 2.5;
-						jokes.fontsize[joke] = "22px sans-serif"; //lineH 22 x -0 y -22
+						jokes.fontsize[joke] = "22px sans-serif";
 						jokes.lineH[joke] = 22;
 						}
 				} else {
@@ -164,15 +159,16 @@ jokes.measure = function() {
 				jokes.lineH[joke] = 18;
 			}
 		} else {
-			jokes.modH[joke] = 3.5; //lineH 16 x -88 -38
+			jokes.modH[joke] = 3.5;
 			jokes.fontsize[joke] = "17px sans-serif";
 			jokes.lineH[joke] = 17;
 		}
 	}
 };
 
+// modified from original code of an html5 tutorial on wrapping text for canvas
+// http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/
 jokes.wrapText = function(jokeNum, x, y, maxWidth, player) {
-	// for (joke in jokes.punchlines) {
     var lines = jokes.punchlines[jokeNum].split("\n"); //splits the text words into an array with entries separated by a double \n\n
      for (var i = 0; i < lines.length; i++) {
 		var words = lines[i].split(' '); //split lines ino a words array that has each word as a separate entry
@@ -206,14 +202,12 @@ jokes.wrapText = function(jokeNum, x, y, maxWidth, player) {
     }
 };
 
-jokes.measure();
-
+// class for Jokes in case more captions want to be added...
 var Joke = function(punchlines) {
     this.sprite = 'images/caption-balloon1.png';
     this.x = 0;
     this.y = 0;
 };
-
 
 var funny = new Joke;
 
@@ -237,7 +231,8 @@ Joke.prototype.render = function() {
 };
 
 function loadExtras() {
-	audio.display()
+	audio.display();
+	jokes.measure();
 }
 
 loadExtras();

@@ -1,5 +1,11 @@
 // Udacity: Enemies our player must avoid
-// drch: add array for all enemies;
+
+// test = {};
+// test.level = function() {
+//     player.y = 0;
+// }
+
+// * Enemy Section *
 
 var Enemy = function(row,direction,offset) {
     // Udacity: Variables applied to each of our instances go here,
@@ -20,11 +26,11 @@ var Enemy = function(row,direction,offset) {
 // Udacity: Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // drch ADDED ALTERNATE DIRECTION FOR BUG
     // Udacity: You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
 
+    // drch: add alternative directions for enemies
     if (this.direction < 0) {
         if (this.x > -101) {
             this.x+=this.speed*dt;
@@ -42,26 +48,15 @@ Enemy.prototype.update = function(dt) {
 
 // Udacity: Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    // ctx.fillStyle = "rgba(100,100,100,0.5)"; // uncomment to highlight total png for each enemy
-    // ctx.fillRect(this.x,this.y,101,171);
     // ctx.fillStyle = "rgba(255,0,255,0.75)"; // uncomment to highlight collision zone on each enemy
     // ctx.fillRect(this.x,this.y+78,101,65);
-    // ctx.fillStyle = "red";   // uncomment to see goalLine
-    // ctx.fillRect(0,132,500,4);
-    // ctx.fillStyle = "blue"; // uncomment to see division lines (83 pixels apart)
-    // ctx.fillRect(0,215,500,4);
-    // ctx.fillRect(0,298,500,4);
-    // ctx.fillRect(0,381,500,4);
-    // ctx.fillRect(0,464,500,4);
-    // ctx.fillRect(0,547,500,4);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
 
 var Boris = function(row,direction,offset) {
     Enemy.call(this,row,direction,offset);
     if (direction < 0) {
-        this.sprite = 'images/car_boris2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
+        this.sprite = 'images/car_boris2.png';
     } else {
         this.sprite = 'images/car_boris.png';
     }
@@ -75,11 +70,10 @@ Boris.prototype.constructor = Enemy;
 var Dmitri = function(row,direction,offset) {
     Enemy.call(this,row,direction,offset);
     if (direction < 0) {
-        this.sprite = 'images/car_dmitri2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
+        this.sprite = 'images/car_dmitri2.png';
     } else {
         this.sprite = 'images/car_dmitri.png';
     }
-    // this.speed = 88*direction;
     this.originalSpeed = 88*direction;
     this.speed = this.originalSpeed;
 };
@@ -89,11 +83,10 @@ Dmitri.prototype.constructor = Enemy;
 var Gregor = function(row,direction,offset) {
     Enemy.call(this,row,direction,offset);
     if (direction < 0) {
-        this.sprite = 'images/car_gregor2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
+        this.sprite = 'images/car_gregor2.png';
     } else {
         this.sprite = 'images/car_gregor.png';
     }
-    // this.speed = 38*direction;
     this.originalSpeed = 38*direction;
     this.speed = this.originalSpeed;
 };
@@ -103,11 +96,10 @@ Gregor.prototype.constructor = Enemy;
 var Igor = function(row,direction,offset) {
     Enemy.call(this,row,direction,offset);
     if (direction < 0) {
-        this.sprite = 'images/car_igor2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
+        this.sprite = 'images/car_igor2.png';
     } else {
         this.sprite = 'images/car_igor.png';
     }
-    // this.speed = 68*direction;
     this.originalSpeed = 68*direction;
     this.speed = this.originalSpeed;
 };
@@ -117,11 +109,10 @@ Igor.prototype.constructor = Enemy;
 var Ivan = function(row,direction,offset) {
     Enemy.call(this,row,direction,offset);
     if (direction < 0) {
-        this.sprite = 'images/car_ivan2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
+        this.sprite = 'images/car_ivan2.png';
     } else {
         this.sprite = 'images/car_ivan.png';
     }
-    // this.speed = 128*direction;
     this.originalSpeed = 128*direction;
     this.speed = this.originalSpeed;
 };
@@ -156,6 +147,9 @@ var Theodor = function(row,direction,offset) {
 Theodor.prototype = Object.create(Enemy.prototype);
 Theodor.prototype.constructor = Enemy;
 
+
+// * Player Section *
+
 // drch: Player function for moving player from event listener for input keys (below)
 // Udacity: Now write your own player class
 // This class requires an update(), render() and
@@ -169,8 +163,7 @@ var Player = function () {
     this.sprite = 'images/chicken.png';
 };
 
-// drch: handleInput function of each player that translates input key into
-// an x or y movement to add in the update function
+// drch: translates input key into an x or y movement to add in the update function
 Player.prototype.handleInput = function(inputKey) {
     if (keysOn === 1) {
         if (inputKey === "left") {
@@ -193,6 +186,7 @@ Player.prototype.handleInput = function(inputKey) {
     }
 };
 
+// drch: keep player in bounds and provide movement
 Player.prototype.update = function() {
     if (this.y > 405) {
         player.y = 405;
@@ -210,7 +204,7 @@ Player.prototype.update = function() {
 
 Player.prototype.checkCollisions = function() {
     var player = this;
-    // set boundaries in png for the player and each enemy
+    // set collision boundaries
     var goalLine = 130;
     var playerLeft = player.x+5;
     var playerRight = player.x+95;
@@ -222,7 +216,7 @@ Player.prototype.checkCollisions = function() {
         var enemyRight = enemy.x+101;
         var enemyTop = enemy.y+78;
         var enemyBottom = enemy.y+143;
-        // look for a collision if the player touches any of the enemies
+        // look for collisions
         if (
             (
                 ((playerTop <= enemyBottom) && (playerTop >= enemyTop))
@@ -245,17 +239,13 @@ Player.prototype.checkCollisions = function() {
     });
 };
 
-// test = {};
-// test.level = function() {
-//     player.y = 0;
-// }
-
 Player.prototype.crash = function() {
     keysOn = 0;
     if (lives > 1) {
         if (audio.toggle === "on") {
             audio.playHorn();
         }
+        // add a delay for seeing the bang image
         if (counter < 30) {
             this.sprite = 'images/bang.png';
             counter+=1;
@@ -270,6 +260,7 @@ Player.prototype.crash = function() {
                 }
             });
         }
+    // game over
     } else {
         if (counter < 30) {
             this.sprite = 'images/bang.png';
@@ -304,8 +295,6 @@ Player.prototype.resetPlayer = function() {
     });
 };
 
-
-
 Player.prototype.goalLine = function() {
     keysOn = 0;
     if (counter < 320) {
@@ -334,17 +323,18 @@ Player.prototype.goalLine = function() {
 };
 
 Player.prototype.render = function() {
-    // ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight total png for player
-    // ctx.fillRect(this.x,this.y,101,171);
     // ctx.fillStyle = "rgba(255,255,0,0.75)"; // uncomment to highlight collision zone for player
     // ctx.fillRect(this.x+5,this.y+72,90,60);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// drch: make multiple enemies with row, direction, and offset info
+// * Instantiate Section *
+
 // Udacity: Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+// drch: make multiple enemies with row, direction, and offset info
 
 var ivanL0 = new Ivan(0,-1,0);
 var theodorL0 = new Theodor(0,-1,200)
@@ -366,6 +356,8 @@ var allEnemies = [];
 
 var player = new Player()
 
+
+// add more enemies with each coming level
 function StartLevel() {
     if (level === 1) {
         allEnemies = [ivanL0,borisR1,gregorL2,igorR3];
@@ -394,10 +386,6 @@ function StartLevel() {
     });
 }
 
-// StartLevel();
-
-// console.log(allEnemies);
-
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -424,7 +412,7 @@ function pushRestart() {
         enemy.speed = enemy.originalSpeed;
     });
     allEnemies = [];
-    keysOn = 1; // turns on or off keyboard after collision or goal line crossing
+    keysOn = 1;
     pauseNum = 0;
     counter = 0;
     level = 1;

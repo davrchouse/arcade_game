@@ -58,7 +58,6 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-        console.log(ivanL0.speed);
     }
 
     /* This function does some initial setup that should only occur once,
@@ -80,6 +79,8 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+
+     // drch: add functionality for different game states
     function update(dt) {
         if (pauseNum === 0) {
             updateEntities(dt);
@@ -152,7 +153,6 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
         renderEntities();
         renderMessages(pauseNum);
     }
@@ -174,11 +174,11 @@ var Engine = (function(global) {
 
         player.render();
 
+        // drch: add pause for adding jokes to the screen
         if (pauseNum === 2) {
             funny.update(player);
             funny.render();
         }
-
     }
 
     /* This function does nothing but it could have been a good place to
@@ -189,6 +189,7 @@ var Engine = (function(global) {
         pushRestart();
     }
 
+    // drch: custom functions for messages and waiting to reset the game
     function renderMessages(pauseNum) {
         if (pauseNum === 3) {
             if (counter  < 300)
@@ -196,14 +197,14 @@ var Engine = (function(global) {
                 ctx.fillRect(101,160,101*(columns-2),108);
                 ctx.textAlign = "center";
                 ctx.font = "60px sans-serif";
-                ctx.fillStyle = 'red';
+                ctx.fillStyle = "red";
                 ctx.fillText("GAME OVER", (101*columns / 2), 235);
             }
         if (pauseNum === 4) {
             ctx.fillStyle = "rgba(255,255,255,0.95)";
             ctx.fillRect(101,160,101*(columns-2),108);
             ctx.textAlign = "center";
-            ctx.fillStyle = extra.end.color;
+            ctx.fillStyle = "blue";
             ctx.fillText("Congratulations!", (101*columns / 2), 200);
             ctx.fillText("From the other side!", (101*columns / 2), 240);
         }
@@ -229,14 +230,13 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/enemy-bug2.png', // ADDED ALTERNATE DIRECTION FOR BUG
-        'images/bang.png', // ADDED EXPLOSION FOR COLLISIONS
-        'images/chicken.png', // ADDED CHICKEN FOR PLAYER
+        'images/bang.png',              // modified from freeiconspng.com/free-images/explosion-icon-9152
+        'images/chicken.png',           // modified from opengameart.org/content/lil-chick (CC0, Public Domain)
         'images/chicken2.png',
-        'images/upper-road1.png', // ADDED NEW ROADS
+        'images/upper-road1.png',       // modified from opengameart.org/content/golgotha-textures-tunnelroad.jpg (CC0, Public Domain)
         'images/upper-road2.png',
         'images/upper-road0.png',
-        'images/car_ivan.png', // ADDED CARS INSTEAD OF BUGS
+        'images/car_ivan.png',          // cars from iconarchive.com/show/car-icons-by-bevel-and-emboss.html (Freeware)
         'images/car_ivan2.png',
         'images/car_dmitri.png',
         'images/car_dmitri2.png',
@@ -251,7 +251,7 @@ var Engine = (function(global) {
         'images/car_theodor.png',
         'images/car_theodor2.png',
         'images/sky.png',
-        'images/caption-balloon1.png',
+        'images/caption-balloon1.png',  // modified from openclipart.org/detail/173492/caption-balloon-4 (Public Domain)
         'images/caption-balloon2.png',
         'images/full-heart.png',
         'images/empty-heart.png'
