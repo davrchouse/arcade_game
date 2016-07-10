@@ -233,10 +233,10 @@ Player.prototype.checkCollisions = function() {
     });
 };
 
-test = {};
-test.level = function() {
-    player.y = 0; 
-}
+// test = {};
+// test.level = function() {
+//     player.y = 0;
+// }
 
 Player.prototype.crash = function() {
     keysOn = 0;
@@ -290,7 +290,6 @@ Player.prototype.resetPlayer = function() {
             enemy.x = -101 - enemy.offset;
         }
     });
-    // StartLevel();
 };
 
 
@@ -398,3 +397,23 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function pushRestart() {
+    player.sprite = 'images/chicken.png';
+    player.x = (101*(columns-1) / 2);
+    player.y = 405;
+    allEnemies.forEach(function(enemy) {
+        if (enemy.direction < 0) {
+            enemy.x = (101*columns)+ enemy.offset;
+        } else {
+            enemy.x = -101 - enemy.offset;
+        }
+    });
+    allEnemies.length = 0;
+    keysOn = 1; // turns on or off keyboard after collision or goal line crossing
+    pauseNum = 0;
+    counter = 0;
+    level = 1;
+    lives = 5;
+    StartLevel();
+}

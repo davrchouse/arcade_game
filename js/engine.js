@@ -28,7 +28,7 @@ var Engine = (function(global) {
     canvas.width = (101*columns);
     canvas.height = 606;
 
-    doc.getElementById("main").appendChild(canvas);
+    doc.getElementById("game").appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -69,7 +69,6 @@ var Engine = (function(global) {
         lastTime = Date.now();
         main();
     }
-
 
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how

@@ -9,14 +9,14 @@ var audio = {
 };
 
 var HTMLaudio1 = '<audio id="traffic" loop><source src='+audio.traffic+' type="audio/ogg">Your browser does not support the audio element.</audio>';
-var HTMLaudio2 = '<audio id="horn"><source src='+audio.horn+' type="audio/ogg"></audio><button onclick="audio.soundOnOff()" type="button">Turn On/Off Sound</button>';
+var HTMLaudio2 = '<audio id="horn"><source src='+audio.horn+' type="audio/ogg"></audio>';
 var HTMLaudio3 = '<audio id="chicken"><source src='+audio.chicken+' type="audio/ogg"></audio>';
 var HTMLaudio4 = '<audio id="tada"><source src='+audio.won+' type="audio/ogg"></audio>';
 
 
 
 audio.display = function() {
-	$("body").append(HTMLaudio1, HTMLaudio2, HTMLaudio3, HTMLaudio4);
+	$("#sidebar").append(HTMLaudio1, HTMLaudio2, HTMLaudio3, HTMLaudio4);
 };
 
 audio.soundOnOff = function() {
@@ -128,13 +128,7 @@ var jokes = {
 		"She was free range.",
 		"Ask the chicken!",
 		"In protest of current roadkill legislation.",
-		"I just felt like crossing the road, OK?",
-		"50 to maximum of 60 characters ----- - --- ------ --- _-_-_-",
-		"40 to 49 characters - ---- _-- ---_-- -_- -- -_--",
-		"30 to 39 characters --- - --S-- --- -K-",
-		"20 to 29 chars to work -- -S-",
-		"10 to 19 chars work",
-		"< than 10"],
+		"I just felt like crossing the road, OK?"],
 	"lengths":[],
 	"modH": [],
 	"lineH": [],
