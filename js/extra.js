@@ -14,7 +14,7 @@ var HTMLaudio3 = '<audio id="chicken"><source src='+audio.chicken+' type="audio/
 
 
 audio.display = function() {
-	// $("body").append(HTMLaudio1, HTMLaudio2, HTMLaudio3);
+	$("body").append(HTMLaudio1, HTMLaudio2, HTMLaudio3);
 };
 
 audio.soundOnOff = function() {

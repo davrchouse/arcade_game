@@ -1,18 +1,19 @@
 // Udacity: Enemies our player must avoid
 // drch: add array for all enemies;
 
-var Enemy = function(row,direction) {
+var Enemy = function(row,direction,offset) {
     // Udacity: Variables applied to each of our instances go here,
     // we've provided one for you to get started
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.row = row;
     this.direction = direction;
+    this.offset = offset;
     this.y = 65 + (row * rowHeight);
     if (direction < 0) {
-        this.x = (101*columns);
+        this.x = (101*columns) + offset;
     } else {
-        this.x = -101;
+        this.x = -101 - offset;
     }
 };
 
@@ -28,13 +29,13 @@ Enemy.prototype.update = function(dt) {
         if (this.x > -101) {
             this.x+=this.speed*dt;
         } else {
-            this.x = (101*columns);
+            this.x = (101*columns)+404;
             }
     } else {
         if (this.x < 101*columns) {
             this.x +=this.speed*dt;
         } else {
-            this.x = -101;
+            this.x = -505;
         }
     }
 };
@@ -57,8 +58,8 @@ Enemy.prototype.render = function() {
 };
 
 
-var Boris = function(row,direction) {
-    Enemy.call(this,row,direction);
+var Boris = function(row,direction,offset) {
+    Enemy.call(this,row,direction,offset);
     if (direction < 0) {
         this.sprite = 'images/car_boris2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
@@ -69,32 +70,32 @@ var Boris = function(row,direction) {
 Boris.prototype = Object.create(Enemy.prototype);
 Boris.prototype.constructor = Enemy;
 
-var Dmitri = function(row,direction) {
-    Enemy.call(this,row,direction);
+var Dmitri = function(row,direction,offset) {
+    Enemy.call(this,row,direction,offset);
     if (direction < 0) {
         this.sprite = 'images/car_dmitri2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
         this.sprite = 'images/car_dmitri.png';
     }
-    this.speed = 58*direction;
+    this.speed = 88*direction;
 };
 Dmitri.prototype = Object.create(Enemy.prototype);
 Dmitri.prototype.constructor = Enemy;
 
-var Gregor = function(row,direction) {
-    Enemy.call(this,row,direction);
+var Gregor = function(row,direction,offset) {
+    Enemy.call(this,row,direction,offset);
     if (direction < 0) {
         this.sprite = 'images/car_gregor2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
         this.sprite = 'images/car_gregor.png';
     }
-    this.speed = 48*direction;
+    this.speed = 38*direction;
 };
 Gregor.prototype = Object.create(Enemy.prototype);
 Gregor.prototype.constructor = Enemy;
 
-var Igor = function(row,direction) {
-    Enemy.call(this,row,direction);
+var Igor = function(row,direction,offset) {
+    Enemy.call(this,row,direction,offset);
     if (direction < 0) {
         this.sprite = 'images/car_igor2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
@@ -105,32 +106,32 @@ var Igor = function(row,direction) {
 Igor.prototype = Object.create(Enemy.prototype);
 Igor.prototype.constructor = Enemy;
 
-var Ivan = function(row,direction) {
-    Enemy.call(this,row,direction);
+var Ivan = function(row,direction,offset) {
+    Enemy.call(this,row,direction,offset);
     if (direction < 0) {
         this.sprite = 'images/car_ivan2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
         this.sprite = 'images/car_ivan.png';
     }
-    this.speed = 78*direction;
+    this.speed = 128*direction;
 };
 Ivan.prototype = Object.create(Enemy.prototype);
 Ivan.prototype.constructor = Enemy;
 
-var Natasha = function(row,direction) {
-    Enemy.call(this,row,direction);
+var Natasha = function(row,direction,offset) {
+    Enemy.call(this,row,direction,offset);
     if (direction < 0) {
         this.sprite = 'images/car_natasha2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
         this.sprite = 'images/car_natasha.png';
     }
-    this.speed = 98*direction;
+    this.speed = 168*direction;
 };
 Natasha.prototype = Object.create(Enemy.prototype);
 Natasha.prototype.constructor = Enemy;
 
-var Theodor = function(row,direction) {
-    Enemy.call(this,row,direction);
+var Theodor = function(row,direction,offset) {
+    Enemy.call(this,row,direction,offset);
     if (direction < 0) {
         this.sprite = 'images/car_theodor2.png'; // drch: ADDED ALTERNATE DIRECTION FOR BUG
     } else {
@@ -232,6 +233,11 @@ Player.prototype.checkCollisions = function() {
     });
 };
 
+test = {};
+test.level = function() {
+    player.y = 0; 
+}
+
 Player.prototype.crash = function() {
     keysOn = 0;
     if (audio.toggle === "on") {
@@ -242,6 +248,13 @@ Player.prototype.crash = function() {
         counter+=1;
     } else {
     this.resetPlayer();
+    allEnemies.forEach(function(enemy) {
+        if (enemy.direction < 0) {
+            enemy.x = (101*columns)+ enemy.offset;
+        } else {
+        enemy.x = -101 - enemy.offset;
+        }
+    });
     }
 };
 
@@ -252,7 +265,14 @@ Player.prototype.resetPlayer = function() {
     keysOn = 1;
     pauseNum = 0;
     counter = 0;
-    StartLevel();
+    allEnemies.forEach(function(enemy) {
+        if (enemy.direction < 0) {
+            enemy.x = (101*columns) + enemy.offset;
+        } else {
+            enemy.x = -101 - enemy.offset;
+        }
+    });
+    // StartLevel();
 };
 
 
@@ -277,6 +297,7 @@ Player.prototype.goalLine = function() {
         if (level < 10) {
             level+=1;
             this.resetPlayer();
+            StartLevel();
         } else {
             console.log("YOU DID IT");
         }
@@ -297,24 +318,32 @@ Player.prototype.render = function() {
 // Place the player object in a variable called player
 
 
-// var boris = new Enemy("Boris",0,50);
-// var dmitri = new Enemy("Dmitri",1,-100);
-// var igor = new Enemy("Igor",2,150);
-// var natasha = new Enemy("Natasha",3,-50);
-var natashaL0 = new Natasha(0,-1);
-var igorL0 = new Igor(0,-1);
-var gregorL0 = new Gregor(0,-1);
 
 
-var borisR1 = new Boris(1,1);
-var gregorR1 = new Gregor(1,1);
-var igorR1 = new Igor(1,1);
+var ivanL0 = new Ivan(0,-1,0);
+var theodorL0 = new Theodor(0,-1,200)
+var dmitriL0 = new Dmitri(0,-1,400);
 
-var ivanL2 = new Ivan(2,-1);
-var dmitriL2 = new Dmitri(2,-1);
+
+var borisR1 = new Boris(1,1,0);
+var natashaR1 = new Natasha(1,1,200);
+var igorR1 = new Igor(1,1,400);
+
+var dmitriL2 = new Dmitri(2,-1,500);
+var gregorL2 = new Gregor(2,-1,0);
+var natashaL2 = new Natasha(2,-1,800);
+// var ivanL2 = new Ivan(2,-1,300);
+
 // var natashaL2 = new Natasha(2,-300);
+var theodorR3 = new Theodor(3,1,200);
+var igorR3 = new Igor(3,1,0);
+var ivanR3 = new Ivan(3,1,200);
 
-var theodorR3 = new Theodor(3,1);
+// var theodorR3 = new Theodor(3,1,100);
+
+
+
+
 // var borisR3 = new Boris(3,50);
 
 // var natasha = new Enemy()
@@ -324,29 +353,26 @@ var allEnemies = [];
 var player = new Player()
 
 function StartLevel() {
-    if (level < 2) {
-        allEnemies = [
-            gregorL0,
-            borisR1,
-            ivanL2,
-            dmitriL2,
-            theodorR3
-        ];
+    if (level === 1) {
+        allEnemies = [ivanL0,borisR1,gregorL2,igorR3];
     }
-    else if (level < 4) {
-        allEnemies = [
-            natashaL0,
-            // igorL0,
-            borisR1,
-            // gregorR1,
-            // ivanL2,
-            // dmitriL2,
-            // theodorR3
-        ];
+    else if (level === 2) {
+        allEnemies.push(dmitriL2,theodorL0);
+        }
+    else if (level === 3) {
+        allEnemies.push(ivanR3,natashaR1);
     }
+    else if (level === 5) {
+        allEnemies.push(theodorR3,natashaL2);
+        }
+    else if (level === 6) {
+        allEnemies.push(igorR1);
+        }
+    else if (level === 7) {
+        allEnemies.push(dmitriL0);
+        }
     allEnemies.forEach(function(enemy) {
         enemy.speed = enemy.speed+(2*level*enemy.direction);
-        console.log(enemy.speed);
     });
 
 }
