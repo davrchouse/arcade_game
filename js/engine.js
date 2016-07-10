@@ -58,6 +58,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
+        console.log(ivanL0.speed);
     }
 
     /* This function does some initial setup that should only occur once,
@@ -185,13 +186,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        allEnemies.length = 0;
-        keysOn = 1; // turns on or off keyboard after collision or goal line crossing
-        pauseNum = 0;
-        counter = 0;
-        level = 1;
-        lives = 5;
-        StartLevel();
+        pushRestart();
     }
 
     function renderMessages(pauseNum) {

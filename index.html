@@ -19,7 +19,7 @@
       <div id="sidebar">
         <br>
         <br>
-        <button class="buttons" onclick="pushRestart()">Restart</button></p>
+        <button id="btn1" type="button" class="test">Restart</button>
         <br>
         <br>
         <p>Sound</p>
@@ -30,15 +30,15 @@
         <br>
         <br>
         <p>Player Speed</p>
-        <input id="spinner" value="3"></input>
+        <input id="spinner" class="spin" value="3"></input>
         <br>
         <br>
         <br>
         <p>Difficulty</p>
-        <select id="selectmenu">
+        <select id="selectmenu" onchange="if (this.selectedIndex) do">
           <option value="1">Easy</option>
-          <option value="2">Medium</option>
-          <option value="3">Hard</option>
+          <option value="3">Medium</option>
+          <option value="6">Hard</option>
         </select>
         <br>
         <br>
@@ -47,7 +47,7 @@
         <p class="dialogbox"><a href="#" id="dialog-link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-help"></span>Help</a></p>
         <!-- ui-dialog -->
         <div id="dialog" title="Help the chicken cross the road?">
-          <p>Use the arrow keys to move up, down, left and right. You can adjust how fast the player moves by changing player speed. Easy, Medium, and Hard settings affect how quickly the cars speed up every level.</p>
+          <p>Use the arrow keys to move up, down, left, and right. You can adjust how fast the player moves by changing player speed. Easy, Medium, and Hard settings affect how quickly the cars speed up every level.</p>
         </div>
 	  </section>
   </section>
@@ -60,8 +60,14 @@
     <script src="jquery-ui-custom/jquery-ui.js"></script>
     <script type="text/javascript">
     // jquery code from jQuery UI example page -- using custom formatting
-      $( ".buttons" ).button();
 
+      // restart button
+      $( "#btn1" ).button();
+      $("#btn1").on("click", function(e) {
+        pushRestart();
+        $('#btn1').removeClass('test ui-btn-active ui-state-focus us-state-default').blur();
+      });
+      // spinner to choose player speed
       $( "#radioset" ).buttonset();
       $("#radio2").prop("disabled", true).button("refresh");
       $("#radio1").click(function(){
@@ -72,11 +78,31 @@
         $("#radio2").prop("disabled", true).button("refresh");
         $("#radio1").prop("disabled", false).button("refresh");
       })
+      // spinner to choose player speed
+      $( "#spinner" ).spinner({
+          min: 1,
+          max: 5,
+          spin: function(event, ui) {
+            speedInput = 6 - ui.value;
+            playerSpeed = rowHeight/speedInput;
+          }
+      });
+      $("#spinner").focus(function () {
+        $(this).blur();
+      });
 
+      // drop down menu for selecting difficulty
+      $( "#selectmenu" ).selectmenu({
+        select: function( event, ui ) {
+          var thing = $(this). val();
+          console.log(thing);
+          difficulty = thing;
+          console.log("difficulty",difficulty);
+        }
+      });
+      // $("#selectmenu").on("selectmenuselect", function( event, ui) {} );
 
-      $( "#spinner" ).spinner();
-
-      $( "#selectmenu" ).selectmenu();
+      // the dialog box
       $( "#dialog" ).dialog({
         autoOpen: false,
         width: 400,
@@ -95,21 +121,11 @@
           }
         ]
       });
-
-      // Link to open the dialog
+      // Link to open the dialog box
       $( "#dialog-link" ).click(function( event ) {
         $( "#dialog" ).dialog( "open" );
         event.preventDefault();
       });
-
-     $(function () {
-        $("#selectmenu").change(function() {
-          var selectedText = $(this).find("option:selected").text();
-          var selectedValue = $(this).val();
-          console.log(selectedText,selectedValue);
-          alert("wowzers", selectedValue);
-        });
-     });
     </script>
 </body>
 </html>

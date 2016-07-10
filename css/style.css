@@ -23,6 +23,10 @@ button {
   margin: 10px;
 }
 
+.buttons:focus {
+  outline: none;
+}
+
 audio {
   width: 100%;
 }

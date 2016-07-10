@@ -65,7 +65,9 @@ var Boris = function(row,direction,offset) {
     } else {
         this.sprite = 'images/car_boris.png';
     }
-    this.speed = 23*direction;
+    this.originalSpeed = 23*direction;
+    this.speed = this.originalSpeed;
+  ;
 };
 Boris.prototype = Object.create(Enemy.prototype);
 Boris.prototype.constructor = Enemy;
@@ -77,7 +79,9 @@ var Dmitri = function(row,direction,offset) {
     } else {
         this.sprite = 'images/car_dmitri.png';
     }
-    this.speed = 88*direction;
+    // this.speed = 88*direction;
+    this.originalSpeed = 88*direction;
+    this.speed = this.originalSpeed;
 };
 Dmitri.prototype = Object.create(Enemy.prototype);
 Dmitri.prototype.constructor = Enemy;
@@ -89,7 +93,9 @@ var Gregor = function(row,direction,offset) {
     } else {
         this.sprite = 'images/car_gregor.png';
     }
-    this.speed = 38*direction;
+    // this.speed = 38*direction;
+    this.originalSpeed = 38*direction;
+    this.speed = this.originalSpeed;
 };
 Gregor.prototype = Object.create(Enemy.prototype);
 Gregor.prototype.constructor = Enemy;
@@ -101,7 +107,9 @@ var Igor = function(row,direction,offset) {
     } else {
         this.sprite = 'images/car_igor.png';
     }
-    this.speed = 68*direction;
+    // this.speed = 68*direction;
+    this.originalSpeed = 68*direction;
+    this.speed = this.originalSpeed;
 };
 Igor.prototype = Object.create(Enemy.prototype);
 Igor.prototype.constructor = Enemy;
@@ -113,7 +121,9 @@ var Ivan = function(row,direction,offset) {
     } else {
         this.sprite = 'images/car_ivan.png';
     }
-    this.speed = 128*direction;
+    // this.speed = 128*direction;
+    this.originalSpeed = 128*direction;
+    this.speed = this.originalSpeed;
 };
 Ivan.prototype = Object.create(Enemy.prototype);
 Ivan.prototype.constructor = Enemy;
@@ -125,7 +135,9 @@ var Natasha = function(row,direction,offset) {
     } else {
         this.sprite = 'images/car_natasha.png';
     }
-    this.speed = 168*direction;
+    // this.speed = 168*direction;
+    this.originalSpeed = 168*direction;
+    this.speed = this.originalSpeed;
 };
 Natasha.prototype = Object.create(Enemy.prototype);
 Natasha.prototype.constructor = Enemy;
@@ -137,7 +149,9 @@ var Theodor = function(row,direction,offset) {
     } else {
         this.sprite = 'images/car_theodor.png';
     }
-    this.speed = 88*direction;
+    // this.speed = 88*direction;
+    this.originalSpeed = 88*direction;
+    this.speed = this.originalSpeed;
 };
 Theodor.prototype = Object.create(Enemy.prototype);
 Theodor.prototype.constructor = Enemy;
@@ -180,12 +194,10 @@ Player.prototype.handleInput = function(inputKey) {
 };
 
 Player.prototype.update = function() {
-    if (this.y > 435) {
-        player.y = 435;
+    if (this.y > 405) {
+        player.y = 405;
     } else if (this.x < 0) {
         this.x = 0;
-    } else if (this.y < -playerSpeed) {
-        this.y = -playerSpeed;
     } else if (this.x > (101*6)) {
         this.x = 101*6;
     } else {
@@ -375,9 +387,10 @@ function StartLevel() {
     }
     else if (level === 11) {
         pauseNum = 4;
+        keys = 0;
     }
     allEnemies.forEach(function(enemy) {
-        enemy.speed = enemy.speed+(2*level*enemy.direction);
+        enemy.speed = enemy.speed+(2*level*enemy.direction*difficulty);
     });
 }
 
@@ -408,8 +421,9 @@ function pushRestart() {
         } else {
             enemy.x = -101 - enemy.offset;
         }
+        enemy.speed = enemy.originalSpeed;
     });
-    allEnemies.length = 0;
+    allEnemies = [];
     keysOn = 1; // turns on or off keyboard after collision or goal line crossing
     pauseNum = 0;
     counter = 0;

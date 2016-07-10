@@ -62,17 +62,6 @@ var extra = {
 	}
 };
 
-
-
-
-// extra.reset = function() {
-// 	keysOn = 1; // turns on or off keyboard after collision or goal line crossing
-// 	pauseNum = 0;
-// 	counter = 0;
-// 	level = 1;
-// 	lives = 5;
-// };
-
 extra.update = function(pauseNum) {
 	if (pauseNum !== 2) {
 		extra.question.color = "white";
@@ -107,7 +96,7 @@ extra.render = function() {
     	ctx.stroke();
     	ctx.closePath();
     }
-    for (var x = 0; x < 5; x++) {
+    for (var x = 0; x < totalLives; x++) {
     	if (x < lives) {
     		ctx.drawImage(Resources.get('images/full-heart.png'), 553+(x*27), 566);
     	} else {
