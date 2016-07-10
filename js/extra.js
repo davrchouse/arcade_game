@@ -4,17 +4,19 @@ var audio = {
 	"toggle": "off",
     "traffic": "audio/traffic.ogg",
     "horn": "audio/horn.ogg",
-    "chicken": "audio/chicken.ogg"
+    "chicken": "audio/chicken.ogg",
+    "won": "audio/tada.ogg"
 };
 
 var HTMLaudio1 = '<audio id="traffic" loop><source src='+audio.traffic+' type="audio/ogg">Your browser does not support the audio element.</audio>';
 var HTMLaudio2 = '<audio id="horn"><source src='+audio.horn+' type="audio/ogg"></audio><button onclick="audio.soundOnOff()" type="button">Turn On/Off Sound</button>';
 var HTMLaudio3 = '<audio id="chicken"><source src='+audio.chicken+' type="audio/ogg"></audio>';
+var HTMLaudio4 = '<audio id="tada"><source src='+audio.won+' type="audio/ogg"></audio>';
 
 
 
 audio.display = function() {
-	$("body").append(HTMLaudio1, HTMLaudio2, HTMLaudio3);
+	$("body").append(HTMLaudio1, HTMLaudio2, HTMLaudio3, HTMLaudio4);
 };
 
 audio.soundOnOff = function() {
@@ -40,6 +42,12 @@ audio.playChicken = function() {
 	goal.play();
 }
 
+audio.playTada = function() {
+	won = document.getElementById("tada");
+	won.volume = 0.5;
+	won.play();
+}
+
 var extra = {
 	"question": {
 		"textQ": "Why did the chicken cross the road?",
@@ -47,16 +55,26 @@ var extra = {
 		"color": "white",
 		"Xpos": columns*101 / 2,
 		"Ypos": 100
+	},
+	"end": {
+		"textEnd": ["Congratulations!", "The chicken has crossed the road!"],
+		"color": "blue"
 	}
-}
+};
+
+
+
+
+// extra.reset = function() {
+// 	keysOn = 1; // turns on or off keyboard after collision or goal line crossing
+// 	pauseNum = 0;
+// 	counter = 0;
+// 	level = 1;
+// 	lives = 5;
+// };
 
 extra.update = function(pauseNum) {
-	if (pauseNum === 2) {
-		if (counter < 45) {
-			//noop
-		}
-		// counter+=1;
-	} else {
+	if (pauseNum !== 2) {
 		extra.question.color = "white";
 		extra.question.Ypos = 100;
 	}
@@ -70,6 +88,7 @@ extra.render = function() {
 	ctx.fillText(extra.question.textQ, extra.question.Xpos, extra.question.Ypos);
 	ctx.fillStyle = "rgba(255,255,255,0.5)"; // uncomment to highlight collision zone on each enemy
 	ctx.fillRect(15,560,305,38);
+	ctx.fillRect(545,560,150,38)
 	ctx.textAlign = "left";
 	ctx.font = "30px sans-serif";
 	ctx.fillStyle = "black";
@@ -87,6 +106,13 @@ extra.render = function() {
     	ctx.strokeStyle = '#003300';
     	ctx.stroke();
     	ctx.closePath();
+    }
+    for (var x = 0; x < 5; x++) {
+    	if (x < lives) {
+    		ctx.drawImage(Resources.get('images/full-heart.png'), 553+(x*27), 566);
+    	} else {
+    		ctx.drawImage(Resources.get('images/empty-heart.png'), 553+(x*27), 566);
+    	}
     }
 };
 

@@ -7,3 +7,4 @@ var pauseNum = 0;
 var counter = 0;
 var columns = 7;
 var level = 1;
+var lives = 5;

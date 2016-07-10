@@ -240,21 +240,39 @@ test.level = function() {
 
 Player.prototype.crash = function() {
     keysOn = 0;
-    if (audio.toggle === "on") {
+    if (lives > 1) {
+        if (audio.toggle === "on") {
             audio.playHorn();
         }
-    if (counter < 30) {
-        this.sprite = 'images/bang.png';
-        counter+=1;
-    } else {
-    this.resetPlayer();
-    allEnemies.forEach(function(enemy) {
-        if (enemy.direction < 0) {
-            enemy.x = (101*columns)+ enemy.offset;
+        if (counter < 30) {
+            this.sprite = 'images/bang.png';
+            counter+=1;
         } else {
-        enemy.x = -101 - enemy.offset;
+            this.resetPlayer();
+            lives-=1;
+            allEnemies.forEach(function(enemy) {
+                if (enemy.direction < 0) {
+                    enemy.x = (101*columns)+ enemy.offset;
+                } else {
+                enemy.x = -101 - enemy.offset;
+                }
+            });
         }
-    });
+    } else {
+        if (counter < 30) {
+            this.sprite = 'images/bang.png';
+        } else {
+            pauseNum = 3;
+            lives-=1;
+            allEnemies.forEach(function(enemy) {
+                if (enemy.direction < 0) {
+                    enemy.x = (101*columns)+ enemy.offset;
+                } else {
+                enemy.x = -101 - enemy.offset;
+                }
+            });
+        }
+        counter+=1;
     }
 };
 
@@ -289,18 +307,18 @@ Player.prototype.goalLine = function() {
         } else {
             this.sprite = 'images/chicken.png';
         }
-         if (audio.toggle === "on" && counter === 30) {
+        if (audio.toggle === "on" && counter === 30) {
+            if (level < 10) {
             audio.playChicken();
+            } else {
+            audio.playTada();
+            }
         }
         counter+=1;
     } else {
-        if (level < 10) {
-            level+=1;
-            this.resetPlayer();
-            StartLevel();
-        } else {
-            console.log("YOU DID IT");
-        }
+        level+=1;
+        this.resetPlayer();
+        StartLevel();
     }
 };
 
@@ -312,18 +330,14 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// drch: make multiple enemies with row, speed and direction info
+// drch: make multiple enemies with row, direction, and offset info
 // Udacity: Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-
-
-
 var ivanL0 = new Ivan(0,-1,0);
 var theodorL0 = new Theodor(0,-1,200)
 var dmitriL0 = new Dmitri(0,-1,400);
-
 
 var borisR1 = new Boris(1,1,0);
 var natashaR1 = new Natasha(1,1,200);
@@ -332,21 +346,10 @@ var igorR1 = new Igor(1,1,400);
 var dmitriL2 = new Dmitri(2,-1,500);
 var gregorL2 = new Gregor(2,-1,0);
 var natashaL2 = new Natasha(2,-1,800);
-// var ivanL2 = new Ivan(2,-1,300);
 
-// var natashaL2 = new Natasha(2,-300);
 var theodorR3 = new Theodor(3,1,200);
 var igorR3 = new Igor(3,1,0);
 var ivanR3 = new Ivan(3,1,200);
-
-// var theodorR3 = new Theodor(3,1,100);
-
-
-
-
-// var borisR3 = new Boris(3,50);
-
-// var natasha = new Enemy()
 
 var allEnemies = [];
 
@@ -358,30 +361,28 @@ function StartLevel() {
     }
     else if (level === 2) {
         allEnemies.push(dmitriL2,theodorL0);
-        }
+    }
     else if (level === 3) {
         allEnemies.push(ivanR3,natashaR1);
     }
     else if (level === 5) {
         allEnemies.push(theodorR3,natashaL2);
-        }
+    }
     else if (level === 6) {
         allEnemies.push(igorR1);
-        }
-    else if (level === 7) {
+    }
+    else if (level === 10) {
         allEnemies.push(dmitriL0);
-        }
+    }
+    else if (level === 11) {
+        pauseNum = 4;
+    }
     allEnemies.forEach(function(enemy) {
         enemy.speed = enemy.speed+(2*level*enemy.direction);
     });
-
 }
 
-StartLevel();
-
-
-
-
+// StartLevel();
 
 // console.log(allEnemies);
 

@@ -70,6 +70,7 @@ var Engine = (function(global) {
         main();
     }
 
+
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
      * you implement your collision detection (when two entities occupy the
@@ -89,6 +90,9 @@ var Engine = (function(global) {
         }
         if (pauseNum === 2) {
             player.goalLine();
+        }
+        if (pauseNum == 3) {
+            gameover();
         }
     }
 
@@ -149,13 +153,8 @@ var Engine = (function(global) {
             }
         }
 
-        // ctx.font = "30px sans-serif";
-        // ctx.textAlign = "center";
-        // ctx.fillStyle = "white";
-        // ctx. lineWidth = 3;
-        // ctx.fillText("Why did the chicken cross the road?", canvas.width / 2, canvas.height - 18);
-
         renderEntities();
+        renderMessages(pauseNum);
     }
 
     /* This function is called by the render function and is called on each game
@@ -179,6 +178,7 @@ var Engine = (function(global) {
             funny.update(player);
             funny.render();
         }
+
     }
 
     /* This function does nothing but it could have been a good place to
@@ -186,7 +186,43 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        allEnemies.length = 0;
+        keysOn = 1; // turns on or off keyboard after collision or goal line crossing
+        pauseNum = 0;
+        counter = 0;
+        level = 1;
+        lives = 5;
+        StartLevel();
+    }
+
+    function renderMessages(pauseNum) {
+        if (pauseNum === 3) {
+            if (counter  < 300)
+                ctx.fillStyle = "rgba(255,255,255,0.95)";
+                ctx.fillRect(101,160,101*(columns-2),108);
+                ctx.textAlign = "center";
+                ctx.font = "60px sans-serif";
+                ctx.fillStyle = 'red';
+                ctx.fillText("GAME OVER", (101*columns / 2), 235);
+            }
+        if (pauseNum === 4) {
+            ctx.fillStyle = "rgba(255,255,255,0.95)";
+            ctx.fillRect(101,160,101*(columns-2),108);
+            ctx.textAlign = "center";
+            ctx.fillStyle = extra.end.color;
+            ctx.fillText("Congratulations!", (101*columns / 2), 200);
+            ctx.fillText("From the other side!", (101*columns / 2), 240);
+        }
+    }
+
+    function gameover() {
+        player.sprite = 'images/chicken.png';
+        player.x = (101*(columns-1) / 2);
+        player.y = 405;
+        if (counter > 300) {
+            reset();
+        }
+        counter+=1;
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -222,7 +258,9 @@ var Engine = (function(global) {
         'images/car_theodor2.png',
         'images/sky.png',
         'images/caption-balloon1.png',
-        'images/caption-balloon2.png'
+        'images/caption-balloon2.png',
+        'images/full-heart.png',
+        'images/empty-heart.png'
     ]);
     Resources.onReady(init);
 
