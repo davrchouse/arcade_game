@@ -1,131 +1,132 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-   	<meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="favicon.ico"> <!-- from iconfinder.com/icons/302344/chicken_icon# (Creative Commons)-->
-    <title>JS Arcade Game: from Frogger to Chickens</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  	<link href='https://fonts.googleapis.com/css?family=Lato:100,300' rel='stylesheet'>
-    <link href="jquery-ui-custom/jquery-ui.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="shortcut icon" href="favicon.ico">
+  <!-- from iconfinder.com/icons/302344/chicken_icon# (Creative Commons)-->
+  <title>JS Arcade Game: from Frogger to Chickens</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Lato:100,300' rel='stylesheet'>
+  <link href="jquery-ui-custom/jquery-ui.css" rel="stylesheet">
 </head>
+
 <body>
-	<section id="main">
-		<header>
-			<p>In answer to the age old question...</p>
-		</header>
+  <div id="main">
+    <div id="sidebar">
+        <div class="sidebar-item thinner">
+          <button id="btn1" type="button">Restart</button>
+        </div>
+        <div class="sidebar-item wider">
+          <p>Difficulty</p>
+          <select id="selectmenu" onchange="if (this.selectedIndex) do">
+            <option value="1">Easy</option>
+            <option value="3">Medium</option>
+            <option value="6">Hard</option>
+          </select>
+        </div>
+        <div class="sidebar-item wider">
+          <p>Player Speed</p>
+          <input id="spinner" class="spin" value="3"></input>
+        </div>
+        <div class="sidebar-item wider">
+          <p>Sound</p>
+          <div id="radioset">
+            <input type="radio" class="radiobtn" id="radio1" name="radio" onclick="audio.soundOnOff()">
+            <label for="radio1">ON</label>
+            <input type="radio" class="radiobtn" id="radio2" name="radio" checked="checked" onclick="audio.soundOnOff()">
+            <label for="radio2">OFF</label>
+          </div>
+        </div>
+        <div class="sidebar-item thinner">
+          <p class="dialogbox helpbox"><a href="#" id="dialog-link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-help"></span>Help</a>
+          </p>
+          <div id="dialog" title="Help the chicken cross the road...">
+            <p>Use the arrow keys to move up, down, left, and right. You can adjust how fast the player moves by changing player speed. Easy, Medium, and Hard settings affect how quickly the cars speed up every level.</p>
+          </div>
+        </div>
+      </div>
     <section id="game">
-      <div id="sidebar">
-        <br>
-        <br>
-        <button id="btn1" type="button" class="test">Restart</button>
-        <br>
-        <br>
-        <p>Sound</p>
-        <div id="radioset">
-          <input type="radio" class="radiobtn" id="radio1" name="radio" onclick="audio.soundOnOff()"><label for="radio1">ON</label>
-          <input type="radio" class="radiobtn" id="radio2" name="radio" checked="checked" onclick="audio.soundOnOff()"><label for="radio2">OFF</label>
-        </div>
-        <br>
-        <br>
-        <p>Player Speed</p>
-        <input id="spinner" class="spin" value="3"></input>
-        <br>
-        <br>
-        <br>
-        <p>Difficulty</p>
-        <select id="selectmenu" onchange="if (this.selectedIndex) do">
-          <option value="1">Easy</option>
-          <option value="3">Medium</option>
-          <option value="6">Hard</option>
-        </select>
-        <br>
-        <br>
-        <br>
-        <br>
-        <p class="dialogbox"><a href="#" id="dialog-link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-help"></span>Help</a></p>
-        <!-- ui-dialog -->
-        <div id="dialog" title="Help the chicken cross the road?">
-          <p>Use the arrow keys to move up, down, left, and right. You can adjust how fast the player moves by changing player speed. Easy, Medium, and Hard settings affect how quickly the cars speed up every level.</p>
-        </div>
-	  </section>
-  </section>
-	<script src="js/globals.js"></script>
-	<script src="js/extra.js"></script>
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
-    <script src="jquery-ui-custom/external/jquery/jquery.js"></script>
-    <script src="jquery-ui-custom/jquery-ui.js"></script>
-    <script type="text/javascript">
+      <header>
+        <p>In answer to the age old question...</p>
+      </header>
+    </section>
+  </div>
+  <script src="js/globals.js"></script>
+  <script src="js/extra.js"></script>
+  <script src="js/resources.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="jquery-ui-custom/external/jquery/jquery.js"></script>
+  <script src="jquery-ui-custom/jquery-ui.js"></script>
+  <script type="text/javascript">
     // jquery code from jQuery UI example page -- using custom formatting
 
-      // restart button
-      $( "#btn1" ).button();
-      $("#btn1").on("click", function(e) {
-        pushRestart();
-        $('#btn1').removeClass('test ui-btn-active ui-state-focus us-state-default').blur();
-      });
-      // spinner to choose player speed
-      $( "#radioset" ).buttonset();
-      $("#radio2").prop("disabled", true).button("refresh");
-      $("#radio1").click(function(){
-        $("#radio1").prop("disabled", true).button("refresh");
-        $("#radio2").prop("disabled", false).button("refresh");
-      })
-      $("#radio2").click(function(){
+    // restart button
+    $("#btn1").button();
+    $("#btn1").on("click", function(e) {
+      pushRestart();
+      $('#btn1').removeClass('test ui-btn-active ui-state-focus us-state-default').blur();
+    });
+    // spinner to choose player speed
+    $("#radioset").buttonset();
+    $("#radio2").prop("disabled", true).button("refresh");
+    $("#radio1").click(function() {
+      $("#radio1").prop("disabled", true).button("refresh");
+      $("#radio2").prop("disabled", false).button("refresh");
+    })
+    $("#radio2").click(function() {
         $("#radio2").prop("disabled", true).button("refresh");
         $("#radio1").prop("disabled", false).button("refresh");
       })
       // spinner to choose player speed
-      $( "#spinner" ).spinner({
-          min: 1,
-          max: 5,
-          spin: function(event, ui) {
-            speedInput = 6 - ui.value;
-            playerSpeed = rowHeight/speedInput;
-          }
-      });
-      $("#spinner").focus(function () {
-        $(this).blur();
-      });
+    $("#spinner").spinner({
+      min: 1,
+      max: 5,
+      spin: function(event, ui) {
+        speedInput = 6 - ui.value;
+        playerSpeed = rowHeight / speedInput;
+      }
+    });
+    $("#spinner").focus(function() {
+      $(this).blur();
+    });
 
-      // drop down menu for selecting difficulty
-      $( "#selectmenu" ).selectmenu({
-        select: function( event, ui ) {
-          var thing = $(this). val();
-          console.log(thing);
-          difficulty = thing;
-          console.log("difficulty",difficulty);
+    // drop down menu for selecting difficulty
+    $("#selectmenu").selectmenu({
+      select: function(event, ui) {
+        var thing = $(this).val();
+        console.log(thing);
+        difficulty = thing;
+        console.log("difficulty", difficulty);
+      }
+    });
+    // $("#selectmenu").on("selectmenuselect", function( event, ui) {} );
+
+    // the dialog box
+    $("#dialog").dialog({
+      autoOpen: false,
+      width: 400,
+      buttons: [{
+        text: "Ok",
+        click: function() {
+          $(this).dialog("close");
         }
-      });
-      // $("#selectmenu").on("selectmenuselect", function( event, ui) {} );
-
-      // the dialog box
-      $( "#dialog" ).dialog({
-        autoOpen: false,
-        width: 400,
-        buttons: [
-          {
-            text: "Ok",
-            click: function() {
-              $( this ).dialog( "close" );
-            }
-          },
-          {
-            text: "Cancel",
-            click: function() {
-              $( this ).dialog( "close" );
-            }
-          }
-        ]
-      });
-      // Link to open the dialog box
-      $( "#dialog-link" ).click(function( event ) {
-        $( "#dialog" ).dialog( "open" );
-        event.preventDefault();
-      });
-    </script>
+      }, {
+        text: "Cancel",
+        click: function() {
+          $(this).dialog("close");
+        }
+      }]
+    });
+    // Link to open the dialog box
+    $("#dialog-link").click(function(event) {
+      $("#dialog").dialog("open");
+      event.preventDefault();
+    });
+  </script>
 </body>
+
 </html>
