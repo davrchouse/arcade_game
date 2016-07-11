@@ -1,6 +1,40 @@
-frontend-nanodegree-arcade-game
-===============================
+# frontend-nanodegree-arcade-game
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+##### "Why did the chicken cross the road?"
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+Based on the classic game Frogger, this is a project for the Udacity Front-End Development Nanodegree program. It required adding object-oriented classes, subclasses, and game features on top of a provided game engine. The object of the game is to, yes, get the chicken across the road...
+
+----
+
+### Installation
+
+###### Loading
+Open the index.html file in any browser (keep it among the other files within the arcade_game-master folder). The game will start on load.
+
+###### Playing
+Use keyboard arrow keys to maneuver the chicken across the 4 lanes of traffic. Reaching the other side gets you to the next level.
+Collisions with cars makes you roadkill. There are 10 levels and the chicken has 5 lives.
+
+----
+
+#### Extra Features
+Based on the basic requirements ([seen here](https://www.youtube.com/watch?v=SxeHV1kt7iU&feature=youtu.be)), the following features have been added in the app, engine, globals, and extra.js files, as well as the index.html file:
+* multiple sublcasses of enemies
+* different levels of increasing difficulty
+* game control features
+    *  adjustment of player speed and difficulty level by the user
+    *  restart/reset button
+    *  responsive sound effects
+    *  a help button
+* game messages upon losing or winning the game
+* *every crossing gives you a new joke!*
+
+----
+
+### License
+MIT
+
+
+
+
+

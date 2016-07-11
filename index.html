@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -16,43 +16,43 @@
 <body>
   <div id="main">
     <div id="sidebar">
-        <div class="sidebar-item thinner">
-          <button id="btn1" type="button">Restart</button>
-        </div>
-        <div class="sidebar-item wider">
-          <p>Difficulty</p>
-          <select id="selectmenu" onchange="if (this.selectedIndex) do">
-            <option value="1">Easy</option>
-            <option value="3">Medium</option>
-            <option value="6">Hard</option>
-          </select>
-        </div>
-        <div class="sidebar-item wider">
-          <p>Player Speed</p>
-          <input id="spinner" class="spin" value="3"></input>
-        </div>
-        <div class="sidebar-item wider">
-          <p>Sound</p>
-          <div id="radioset">
-            <input type="radio" class="radiobtn" id="radio1" name="radio" onclick="audio.soundOnOff()">
-            <label for="radio1">ON</label>
-            <input type="radio" class="radiobtn" id="radio2" name="radio" checked="checked" onclick="audio.soundOnOff()">
-            <label for="radio2">OFF</label>
-          </div>
-        </div>
-        <div class="sidebar-item thinner">
-          <p class="dialogbox helpbox"><a href="#" id="dialog-link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-help"></span>Help</a>
-          </p>
-          <div id="dialog" title="Help the chicken cross the road...">
-            <p>Use the arrow keys to move up, down, left, and right. You can adjust how fast the player moves by changing player speed. Easy, Medium, and Hard settings affect how quickly the cars speed up every level.</p>
-          </div>
+      <div class="sidebar-item">
+        <button id="btn1" type="button">Restart</button>
+      </div>
+      <div class="sidebar-item">
+        <p>Difficulty</p>
+        <select id="selectmenu">
+          <option value="1">Easy</option>
+          <option value="3">Medium</option>
+          <option value="6">Hard</option>
+        </select>
+      </div>
+      <div class="sidebar-item">
+        <p>Player Speed</p>
+        <input id="spinner" class="spin" value="3">
+      </div>
+      <div class="sidebar-item">
+        <p>Sound</p>
+        <div id="radioset">
+          <input type="radio" class="radiobtn" id="radio1" name="radio" onclick="audio.soundOnOff()">
+          <label for="radio1">ON</label>
+          <input type="radio" class="radiobtn" id="radio2" name="radio" checked="checked" onclick="audio.soundOnOff()">
+          <label for="radio2">OFF</label>
         </div>
       </div>
-    <section id="game">
+      <div class="sidebar-item">
+        <p class="dialogbox helpbox"><a href="#" id="dialog-link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-help"></span>Help</a>
+        </p>
+        <div id="dialog" title="Help the chicken cross the road...">
+          <p>Use the arrow keys to move up, down, left, and right. You can adjust how fast the player moves by changing player speed. Easy, Medium, and Hard settings affect how quickly the cars speed up every level.</p>
+        </div>
+      </div>
+    </div>
+    <div id="game">
       <header>
         <p>In answer to the age old question...</p>
       </header>
-    </section>
+    </div>
   </div>
   <script src="js/globals.js"></script>
   <script src="js/extra.js"></script>
@@ -98,9 +98,7 @@
     $("#selectmenu").selectmenu({
       select: function(event, ui) {
         var thing = $(this).val();
-        console.log(thing);
         difficulty = thing;
-        console.log("difficulty", difficulty);
       }
     });
     // $("#selectmenu").on("selectmenuselect", function( event, ui) {} );
