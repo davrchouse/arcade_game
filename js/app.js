@@ -178,7 +178,7 @@ Player.prototype.handleInput = function(inputKey) {
 // drch: keep player in bounds and provide movement
 Player.prototype.update = function() {
     if (this.y > 405) {
-        player.y = 405;
+        this.y = 405;
     } else if (this.x < 0) {
         this.x = 0;
     } else if (this.x > (101 * 6)) {
@@ -192,14 +192,13 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.checkCollisions = function() {
-    var player = this;
     // set collision boundaries
     var goalLine = 130;
-    var playerLeft = player.x + 5;
-    var playerRight = player.x + 95;
-    var playerTop = player.y + 72;
-    var playerBottom = player.y + 132;
-    var playerMiddle = player.y + 102;
+    var playerLeft = this.x + 5;
+    var playerRight = this.x + 95;
+    var playerTop = this.y + 72;
+    var playerBottom = this.y + 132;
+    var playerMiddle = this.y + 102;
     allEnemies.forEach(function(enemy) {
         var enemyLeft = enemy.x;
         var enemyRight = enemy.x + 101;
