@@ -1,12 +1,12 @@
 # frontend-nanodegree-arcade-game
 
-##### "Why did the chicken cross the road?"
+#### "Why did the chicken cross the road?"
 
 Based on the classic game Frogger, this is a project for the Udacity Front-End Development Nanodegree program. It required adding object-oriented classes, subclasses, and game features on top of a provided game engine. The object of the game is to, yes, get the chicken across the road...
 
 ----
 
-### Installation
+#### Installation
 
 ###### Loading
 Open the index.html file in any browser (keep it among the other files within the arcade_game-master folder). The game will start on load.
@@ -31,7 +31,7 @@ Based on the basic requirements ([seen here](https://www.youtube.com/watch?v=Sxe
 
 ----
 
-### License
+#### License
 MIT
 
 
